@@ -8,13 +8,8 @@ import lombok.experimental.Accessors;
 
 @ToString
 @AllArgsConstructor
-//@NoArgsConstructor
-//@Accessors(fluent = true, chain = true)
+@NoArgsConstructor
+@Accessors(fluent = true, chain = true)
 public class User {
     public String name;
-
-//    @Override
-//    public String toString() {
-//        return super.toString();
-//    }
 }

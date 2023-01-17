@@ -3,8 +3,8 @@ server:
 #  servlet.context-path: /camel
 #  undertow.max-http-post-size: 0
 camel:
-  springboot:
-    name: RestCamel
+  springboot.name: RestCamel
+  servlet.mapping.context-path: /camel-rest/*
 timer.period: 2000
 
 spring:
