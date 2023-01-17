@@ -27,13 +27,13 @@ public class ApiController {
 
     @GetMapping("send")
     String send() {
-        try{
-            jmsTemplate.convertAndSend(queueDev, "Hello World!");
-            return "OK";
-        }catch(Exception e){
-            log.error("send: ", e);
-            return e.getMessage();
-        }
+        String message = "Hello World!";
+        jmsTemplate.convertAndSend(queueDev, message, messagePostProcessor -> {
+            messagePostProcessor.setStringProperty("adapter", "T24");
+            return messagePostProcessor;
+        });
+//            jmsTemplate.convertAndSend(queueDev, "Hello World!");
+        return "OK";
     }
 
 }

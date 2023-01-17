@@ -1,0 +1,27 @@
+server:
+  port: 9199
+#  servlet.context-path: /camel
+#  undertow.max-http-post-size: 0
+camel:
+  springboot:
+    name: RestCamel
+timer.period: 2000
+
+spring:
+  application.name: camel
+  main.allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+  jackson.default-property-inclusion: non_absent
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.FilterChainProxy: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

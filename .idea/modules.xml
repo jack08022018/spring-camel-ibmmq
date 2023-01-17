@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/camel.main.iml" filepath="$PROJECT_DIR$/.idea/modules/camel.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ibmmq-consumer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ibmmq-consumer.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ibmmq-producer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ibmmq-producer.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-camel-ibmmq.iml" filepath="$PROJECT_DIR$/spring-camel-ibmmq.iml" />
     </modules>

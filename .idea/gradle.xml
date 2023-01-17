@@ -4,6 +4,16 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/camel" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../soft/gradle-7.6-all/gradle-7.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/camel" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/ibmmq-consumer" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../soft/gradle-7.6-all/gradle-7.6" />
         <option name="modules">
