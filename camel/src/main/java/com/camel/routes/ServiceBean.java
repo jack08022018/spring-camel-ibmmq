@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 public class ServiceBean {
 
     public User response(User user) {
-        user.setName(user.getName().toUpperCase());
+        user.name = user.name.toUpperCase();
         return user;
     }
     
