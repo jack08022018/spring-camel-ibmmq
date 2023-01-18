@@ -1,4 +1,4 @@
-package com.camel.routes;
+package com.camel.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

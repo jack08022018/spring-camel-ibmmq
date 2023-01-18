@@ -1,4 +1,4 @@
-//package com.example.config;
+//package com.camel.config;
 //
 //import com.ibm.msg.client.jms.JmsConnectionFactory;
 //import com.ibm.msg.client.jms.JmsConstants;
@@ -20,23 +20,23 @@
 //
 //@Configuration
 //public class JmsConfig {
-//    @Value( "${ibm.mq.host}" )
-//    private String host;
-//
-//    @Value( "${ibm.mq.port}" )
-//    private Integer port;
-//
-//    @Value( "${ibm.mq.queueManager}" )
-//    private String queueManager;
-//
-//    @Value( "${ibm.mq.channel}" )
-//    private String channel;
-//
-//    @Value( "${ibm.mq.user}" )
-//    private String user;
-//
-//    @Value( "${ibm.mq.password}" )
-//    private String password;
+////    @Value( "${ibm.mq.host}" )
+////    private String host;
+////
+////    @Value( "${ibm.mq.port}" )
+////    private Integer port;
+////
+////    @Value( "${ibm.mq.queueManager}" )
+////    private String queueManager;
+////
+////    @Value( "${ibm.mq.channel}" )
+////    private String channel;
+////
+////    @Value( "${ibm.mq.user}" )
+////    private String user;
+////
+////    @Value( "${ibm.mq.password}" )
+////    private String password;
 //
 //    @Bean
 //    public JmsTemplate jmsTemplate() throws JMSException {
@@ -60,12 +60,12 @@
 //        JmsFactoryFactory ff = JmsFactoryFactory.getInstance( JmsConstants.WMQ_PROVIDER );
 //        JmsConnectionFactory factory = ff.createConnectionFactory();
 //        factory.setObjectProperty( WMQConstants.WMQ_CONNECTION_MODE, Integer.valueOf( WMQConstants.WMQ_CM_CLIENT ) );
-//        factory.setStringProperty( WMQConstants.WMQ_HOST_NAME, host );
-//        factory.setObjectProperty( WMQConstants.WMQ_PORT, port );
-//        factory.setStringProperty( WMQConstants.WMQ_QUEUE_MANAGER, queueManager );
-//        factory.setStringProperty( WMQConstants.WMQ_CHANNEL, channel );
-//        factory.setStringProperty( WMQConstants.USERID, user );
-//        factory.setStringProperty( WMQConstants.PASSWORD, password );
+//        factory.setStringProperty( WMQConstants.WMQ_HOST_NAME, "localhost" );
+//        factory.setObjectProperty( WMQConstants.WMQ_PORT, "1414" );
+//        factory.setStringProperty( WMQConstants.WMQ_QUEUE_MANAGER, "QM1" );
+//        factory.setStringProperty( WMQConstants.WMQ_CHANNEL, "DEV.ADMIN.SVRCONN" );
+//        factory.setStringProperty( WMQConstants.USERID, "admin" );
+//        factory.setStringProperty( WMQConstants.PASSWORD, "passw0rd" );
 //        return factory;
 //    }
 //

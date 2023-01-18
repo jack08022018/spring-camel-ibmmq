@@ -14,6 +14,7 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
+//	all*.exclude module : 'spring-boot-starter-logging'
 }
 
 repositories {
@@ -22,18 +23,26 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
+//	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.apache.camel.springboot:camel-spring-boot-starter:3.20.1")
 	implementation("org.apache.camel.springboot:camel-rest-starter:3.20.1")
-	implementation("org.apache.camel.springboot:camel-servlet-starter:3.20.1")
+	implementation("org.apache.camel.springboot:camel-netty-http-starter:3.20.1")
+	implementation("org.apache.camel.springboot:camel-jackson-starter:3.20.1")
+//	implementation("org.apache.camel.springboot:camel-activemq-starter:3.20.1")
+	implementation("org.apache.camel:camel-jms:3.20.1")
+	implementation("com.ibm.mq:com.ibm.mq.allclient:9.3.1.0")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("org.springframework.boot:spring-boot-starter-logging:3.0.1")
-	implementation("org.springframework.boot:spring-boot-starter-log4j2:3.0.1")
-//	implementation("org.apache.camel:camel-http-starter:3.0.0-RC3")
+	implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3"){
+		exclude("spring-boot-starter-logging")
+	}
+	implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3") {
+		exclude("spring-boot-starter-logging")
+	}
+//	implementation ("com.ibm.mq:mq-jms-spring-boot-starter:2.7.4")
 
 }
 
