@@ -3,13 +3,11 @@ package com.camel.config.extensions;
 import com.ibm.mq.jms.MQConnectionFactory;
 import com.ibm.msg.client.wmq.compat.jms.internal.JMSC;
 import lombok.Setter;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 
 import javax.jms.ConnectionFactory;
 
-//@EnableJms
 @Setter
 public class IBMMQ extends Connections {
     private String host;

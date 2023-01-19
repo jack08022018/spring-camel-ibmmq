@@ -21,7 +21,7 @@ public class Consumer {
     final JmsTemplate jmsTemplate;
     final ObjectMapper customObjectMapper;
 
-    @JmsListener(destination = "${queues.queueDev}", selector = "adapter = 'T24'")
+//    @JmsListener(destination = "${queues.queueDev}", selector = "ADAPTER = 'CAMEL'")
     public void receiveHight(Message message) throws JMSException, JsonProcessingException {
         log.info("T24: " + message.getPayload(), customObjectMapper.writeValueAsString(message));
 //        if (message instanceof JMSMessage) {
@@ -30,9 +30,9 @@ public class Consumer {
 //        }
     }
 
-    @JmsListener(destination = "${queues.queueDev}", selector = "adapter = 'EPAY'")
+    @JmsListener(destination = "${queues.queueDev}", selector = "ADAPTER = 'CONSUMER'")
     public void receiveLow(Message message) throws JMSException {
-        log.info("EPAY: "+ message.getPayload());
+        log.info("CONSUMER: "+ message.getPayload());
     }
 
 }

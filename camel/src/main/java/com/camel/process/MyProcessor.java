@@ -19,6 +19,7 @@ public class MyProcessor implements Processor {
 
     public void process(Exchange exchange) throws Exception {
         String message = "Hello World!";
+        exchange.getIn().setBody(message);
 //        jmsTemplate.convertAndSend(queueDev, message, messagePostProcessor -> {
 //            messagePostProcessor.setStringProperty("adapter", "T24");
 //            return messagePostProcessor;

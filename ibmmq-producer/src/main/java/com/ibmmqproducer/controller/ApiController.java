@@ -27,7 +27,7 @@ public class ApiController {
     String send(@RequestParam String adapter) {
         String message = "Hello World!";
         jmsTemplate.convertAndSend(queueDev, message, messagePostProcessor -> {
-            messagePostProcessor.setStringProperty("adapter", adapter);
+            messagePostProcessor.setStringProperty("ADAPTER", adapter);
             return messagePostProcessor;
         });
 //            jmsTemplate.convertAndSend(queueDev, "Hello World!");

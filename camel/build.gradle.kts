@@ -14,6 +14,9 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
+	all {
+		exclude(module = "spring-boot-starter-logging")
+	}
 //	all*.exclude module : 'spring-boot-starter-logging'
 }
 
@@ -25,24 +28,30 @@ repositories {
 dependencies {
 //	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.apache.camel.springboot:camel-spring-boot-starter:3.20.1")
-	implementation("org.apache.camel.springboot:camel-rest-starter:3.20.1")
 	implementation("org.apache.camel.springboot:camel-netty-http-starter:3.20.1")
 	implementation("org.apache.camel.springboot:camel-jackson-starter:3.20.1")
-//	implementation("org.apache.camel.springboot:camel-activemq-starter:3.20.1")
+	implementation("com.ibm.mq:mq-jms-spring-boot-starter:2.6.5")
 	implementation("org.apache.camel:camel-jms:3.20.1")
-	implementation("com.ibm.mq:com.ibm.mq.allclient:9.3.1.0")
+//	implementation("com.ibm.mq:com.ibm.mq.allclient:9.3.1.0")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+//	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+	implementation("com.microsoft.sqlserver:mssql-jdbc")
+	implementation("org.apache.poi:poi:5.2.2")
+	implementation("org.apache.poi:poi-ooxml:5.2.2")
+	implementation("org.apache.commons:commons-lang3:3.12.0")
+	implementation("org.javamoney:moneta:1.4.2")
+
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3"){
+	implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3") {
 		exclude("spring-boot-starter-logging")
 	}
 	implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3") {
 		exclude("spring-boot-starter-logging")
 	}
-//	implementation ("com.ibm.mq:mq-jms-spring-boot-starter:2.7.4")
 
 }
 

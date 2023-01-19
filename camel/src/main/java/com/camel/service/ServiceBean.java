@@ -1,4 +1,4 @@
-package com.camel.routes;
+package com.camel.service;
 import com.camel.dto.User;
 import org.springframework.stereotype.Component;
 

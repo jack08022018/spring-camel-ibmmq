@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.ibm.mq.jms.MQConnectionFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.spring.boot.CamelContextConfiguration;
@@ -15,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 
+import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 
 @EnableJms
