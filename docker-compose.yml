@@ -1,4 +1,7 @@
 version: '2'
+volumes:
+  ibmmq:
+    driver: local
 services:
   ibmmq:
     image: 'docker.io/ibmcom/mq'
@@ -12,9 +15,16 @@ services:
       - ibmmq:/data/ibmmq
     container_name: ibmmq
 
-volumes:
-  ibmmq:
-    driver: local
+#    mssql:
+#      image: 'docker.io/ibmcom/mq'
+#      environment:
+#        - LICENSE=accept
+#        - MQ_QMGR_NAME=QM1
+#      ports:
+#        - '1414:1414'
+#        - '9443:9443'
+#      container_name: ibmmq
+
 
 #services:
 #  grpc-service:

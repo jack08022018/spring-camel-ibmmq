@@ -1,6 +1,7 @@
 package com.camel.service;
 
 import com.camel.entity.RentalNewEntity;
+import com.camel.repository.ActorRepository;
 import com.camel.repository.RentalNewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,12 @@ public class ApiServiceImpl implements ApiService {
     final ActorService actorService;
     final CityService cityService;
     final RentalNewRepository rentalNewRepository;
+    final ActorRepository actorRepository;
 
     @Override
     @Transactional
     public <T> T handleTransactional() {
-        String postfix = " 3";
+        String postfix = " 7";
         actorService.saveActor("THORA" + postfix);
         cityService.saveCity("Ziguinchor" + postfix);
 //        int a = 1/0;
@@ -46,6 +48,7 @@ public class ApiServiceImpl implements ApiService {
         Row row;
         List<RentalNewEntity> data = new ArrayList<>();
         for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
+//        for (int i = 1; i < 3; i++) {
             row = sheet.getRow(i);
             RentalNewEntity entity = RentalNewEntity.builder()
                     .rentalDate(row.getCell(1).getLocalDateTimeCellValue())
@@ -58,8 +61,7 @@ public class ApiServiceImpl implements ApiService {
             data.add(entity);
         }
         long start = System.currentTimeMillis();
-//        rentalNewRepository.saveAll(data);
-        rentalNewRepository.save(data.get(0));
+        rentalNewRepository.saveAll(data);
         long end = System.currentTimeMillis();
         log.info("aaa: " + (end - start));
     }
@@ -67,6 +69,12 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public <T> T findAllRental() {
         return (T) rentalNewRepository.findAll();
+    }
+
+    @Override
+    public <T> T getActor() {
+        var data = actorRepository.findTop2ByLastName();
+        return (T) data;
     }
 
 }

@@ -5,4 +5,5 @@ public interface ApiService {
 //    void importExcel(MultipartFile file) throws Exception;
     void importExcel() throws Exception;
     <T> T findAllRental();
+    <T> T getActor();
 }

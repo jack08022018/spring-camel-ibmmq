@@ -33,14 +33,15 @@ public interface ActorRepository extends JpaRepository<ActorEntity, Integer> {
 //    @Lock(LockModeType.PESSIMISTIC_WRITE)
 //    @QueryHints({@QueryHint(name = AvailableSettings.JPA_LOCK_TIMEOUT, value = LockOptions.SKIP_LOCKED + "")})
 //    @Query(value = "SELECT a FROM ActorEntity a WHERE lastName = 'GUINESS'")
-    @Query(value = "SELECT * FROM actor WHERE last_name = 'GUINESS' LIMIT 2 for UPDATE SKIP LOCKED", nativeQuery = true)
+//    @Query(value = "SELECT * FROM actor WHERE last_name = 'GUINESS' LIMIT 2 for UPDATE SKIP LOCKED", nativeQuery = true)
+    @Query(value = "SELECT * FROM actor WHERE last_name = 'GUINESS' ", nativeQuery = true)
     List<ActorEntity> findTop2ByLastName();
 
 //    @Lock(LockModeType.PESSIMISTIC_WRITE)
 //    @QueryHints({@QueryHint(name = AvailableSettings.JPA_LOCK_TIMEOUT, value = "5000")})
 //    Optional<ActorEntity> findById(Integer actorId);
 
-    @EntityGraph(attributePaths = {"films"})
+//    @EntityGraph(attributePaths = {"films"})
     Optional<ActorEntity> findById(Integer actorId);
 
 }

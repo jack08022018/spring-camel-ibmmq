@@ -46,12 +46,9 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3") {
-		exclude("spring-boot-starter-logging")
-	}
-	implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3") {
-		exclude("spring-boot-starter-logging")
-	}
+	implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3")
+	implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
 }
 

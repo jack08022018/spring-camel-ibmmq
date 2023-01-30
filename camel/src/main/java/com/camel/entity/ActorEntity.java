@@ -47,23 +47,4 @@ public class ActorEntity implements Serializable {
     @Column(name = "version")
     private Integer version;
 
-    @ManyToMany(
-        fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL
-        cascade = { CascadeType.PERSIST, CascadeType.MERGE }
-    )
-    @JoinTable(name = "film_actor",
-            joinColumns = @JoinColumn(name = "actor_id"),
-            inverseJoinColumns = @JoinColumn(name = "film_id")
-    )
-    @JsonManagedReference
-    private List<FilmEntity> films;
-
-    public void addFilms(List<FilmEntity> data) {
-        if(films == null) {
-            films = new ArrayList<>();
-        }
-        films.addAll(data);
-    }
-
 }

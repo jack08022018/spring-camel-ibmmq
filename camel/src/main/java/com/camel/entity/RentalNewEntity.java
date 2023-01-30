@@ -20,9 +20,6 @@ import java.time.LocalDateTime;
 @Table(name = "rental_new")
 public class RentalNewEntity implements Serializable {
     @Id
-//    @SequenceGenerator(name = "rental_seq", sequenceName = "rental_seq", allocationSize = 50)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_seq")
-
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
     @SequenceGenerator(name = "generator", sequenceName = "rental_seq", allocationSize = 50)
     @Column(name = "rental_id")

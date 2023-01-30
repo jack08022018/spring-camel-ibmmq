@@ -30,13 +30,20 @@ public class RestRoute extends RouteBuilder {
 				.apiProperty("cors", "true")
 				.contextPath("/camel-rest")
 				.port(9290)
-				.bindingMode(RestBindingMode.json);
+//				.dataFormatProperty("moduleClassNames", "com.fasterxml.jackson.datatype.jsr310.JavaTimeModule")
+//				.dataFormatProperty("disableFeatures", "WRITE_DATES_AS_TIMESTAMPS")
+				.bindingMode(RestBindingMode.json)
+				.dataFormatProperty("prettyPrint", "true")
+				.dataFormatProperty("enableFeatures","ACCEPT_CASE_INSENSITIVE_PROPERTIES");
 		rest("/api")
 				.get("/hello").type(User.class)
 				.to("direct:hello")
 
 				.post("/getUser").type(User.class)//.outType(String.class)
 				.to("bean:serviceBean?method=getUser")
+
+				.post("/getActor")
+				.to("direct:getActor")
 
 				.post("/toUpper").type(User.class)//.outType(String.class)
 				.to("bean:serviceBean?method=toUpper")
@@ -55,11 +62,6 @@ public class RestRoute extends RouteBuilder {
 
 //				.get("/search?country={country}")
 //				.to("bean:searchBean?method=byCountry(${header.country})");
-
-//		from("ibmmq:queue:DEV.QUEUE.1?selector=ADAPTER='CAMEL'").log("CAMEL: ${body}");
-		from("ibmmq:queue:DEV.QUEUE.1")
-				.filter(header("ADAPTER").isEqualTo("CAMEL"))
-				.log("CAMEL: ${body}");
 
 	}
 

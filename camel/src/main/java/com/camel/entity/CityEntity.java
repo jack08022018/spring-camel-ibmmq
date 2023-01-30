@@ -30,10 +30,4 @@ public class CityEntity {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="country_id", nullable=false)
-    @JsonBackReference
-    @ToString.Exclude
-    private CountryEntity country;
-
 }
