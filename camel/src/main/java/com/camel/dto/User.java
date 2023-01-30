@@ -7,8 +7,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Accessors(fluent = true, chain = true)
 public class User {
     public String name;

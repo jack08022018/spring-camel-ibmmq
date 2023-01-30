@@ -1,5 +1,6 @@
 package com.camel.service;
 
+import com.camel.dto.User;
 import com.camel.entity.RentalNewEntity;
 import com.camel.repository.ActorRepository;
 import com.camel.repository.RentalNewRepository;
@@ -30,8 +31,8 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     @Transactional
-    public <T> T handleTransactional() {
-        String postfix = " 7";
+    public <T> T handleTransactional(User user) {
+        String postfix = " 13";
         actorService.saveActor("THORA" + postfix);
         cityService.saveCity("Ziguinchor" + postfix);
 //        int a = 1/0;

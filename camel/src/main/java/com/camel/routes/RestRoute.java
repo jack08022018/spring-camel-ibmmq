@@ -37,9 +37,10 @@ public class RestRoute extends RouteBuilder {
 				.dataFormatProperty("enableFeatures","ACCEPT_CASE_INSENSITIVE_PROPERTIES");
 
 		onException(Exception.class)
-				.handled(true)
 //				.maximumRedeliveries(2)
 				.process(exceptionHandler)
+				.handled(true)
+				.markRollbackOnlyLast()
 				.end();
 		rest("/api")
 				.get("/hello").type(User.class)

@@ -1,8 +1,11 @@
 package com.camel.routes;
 
 import com.camel.config.ExceptionHandler;
+import com.camel.process.CityProcessor;
 import com.camel.process.MyProcessor;
+import com.camel.service.ActorService;
 import com.camel.service.ApiService;
+import com.camel.service.CityService;
 import com.camel.service.ServiceBean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,9 @@ public class DirectRoute extends RouteBuilder {
 	final ServiceBean serviceBean;
 	final ApiService apiService;
 	final ExceptionHandler exceptionHandler;
+	final CityProcessor cityProcessor;
+	final CityService cityService;
+	final ActorService actorService;
 
 	@Override
 	public void configure() throws Exception {
@@ -26,9 +32,11 @@ public class DirectRoute extends RouteBuilder {
 //		jsonDf.setPrettyPrint(true);
 
 		onException(Exception.class)
-				.handled(true)
+//				.handled(true)
 //				.maximumRedeliveries(2)
 				.process(exceptionHandler)
+				.handled(true)
+				.markRollbackOnlyLast()
 				.end();
 
 		from("direct:start").log("START CAMEL!!!");
@@ -47,9 +55,16 @@ public class DirectRoute extends RouteBuilder {
 //				.unmarshal().json(Object.class);
 //				.marshal(jsonDf);
 
+		String postfix = " 8";
 		from("direct:handleTransactional")
 				.transacted()
-				.bean(apiService, "handleTransactional")
+//				.bean(apiService, "handleTransactional")
+				.process(exchange -> {
+					cityService.saveCity("Ziguinchor" + postfix);
+				})
+				.process(exchange -> {
+					actorService.saveActor("THORA" + postfix);
+				})
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
 					int a = 1/0;
