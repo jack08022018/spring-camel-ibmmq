@@ -1,16 +1,14 @@
 package com.camel.routes;
 
+import com.camel.config.ExceptionHandler;
 import com.camel.dto.User;
 import com.camel.process.MyProcessor;
 import com.camel.service.ApiService;
 import com.camel.service.ServiceBean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
-import org.apache.camel.model.rest.RestParamType;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -20,6 +18,7 @@ public class RestRoute extends RouteBuilder {
 	final MyProcessor myProcessor;
 	final ServiceBean serviceBean;
 	final ApiService apiService;
+	final ExceptionHandler exceptionHandler;
 
 	@Override
 	public void configure() throws Exception {
@@ -27,6 +26,7 @@ public class RestRoute extends RouteBuilder {
 		restConfiguration().component("netty-http")
 				.apiProperty("api.title", "Camel REST API")
 				.apiProperty("api.version", "1.0")
+				.enableCORS(true)
 				.apiProperty("cors", "true")
 				.contextPath("/camel-rest")
 				.port(9290)
@@ -35,6 +35,12 @@ public class RestRoute extends RouteBuilder {
 				.bindingMode(RestBindingMode.json)
 				.dataFormatProperty("prettyPrint", "true")
 				.dataFormatProperty("enableFeatures","ACCEPT_CASE_INSENSITIVE_PROPERTIES");
+
+		onException(Exception.class)
+				.handled(true)
+//				.maximumRedeliveries(2)
+				.process(exceptionHandler)
+				.end();
 		rest("/api")
 				.get("/hello").type(User.class)
 				.to("direct:hello")

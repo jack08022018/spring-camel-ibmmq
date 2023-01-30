@@ -2,14 +2,12 @@ package com.camel.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -40,7 +38,7 @@ public class ActorEntity implements Serializable {
     private String lastName;
 
     @Column(name = "last_update")
-    private LocalDateTime lastUpdate;
+    private Date lastUpdate;
 
     @Version
     @JsonIgnore

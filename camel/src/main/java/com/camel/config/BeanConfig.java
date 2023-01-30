@@ -72,8 +72,7 @@ public class BeanConfig {
             }
 
             @Override
-            public void afterApplicationStart(CamelContext camelContext) {
-                // Do nothing
+            public void afterApplicationStart(CamelContext context) {
             }
         };
     }
