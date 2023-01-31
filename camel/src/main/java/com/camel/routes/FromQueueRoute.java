@@ -6,7 +6,6 @@ import com.camel.service.ActorService;
 import com.camel.service.ApiService;
 import com.camel.service.CityService;
 import com.camel.service.ServiceBean;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
@@ -40,11 +39,12 @@ public class FromQueueRoute extends RouteBuilder {
 				.markRollbackOnlyLast()
 				.end();
 
-		String postfix = " 7";
-//		from("ibmmq:queue:DEV.QUEUE.1?selector=ADAPTER='CAMEL'").log("CAMEL: ${body}");
+		String postfix = " 9";
+//		from("ibmmq:queue:DEV.QUEUE.1?selector=ADAPTER='CAMEL'")
 		from("ibmmq:queue:" + queueDev1)
 				.transacted()
 				.filter(header("ADAPTER").isEqualTo("CAMEL"))
+				.log("Receive DEV.QUEUE.1: ${body}")
 				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
