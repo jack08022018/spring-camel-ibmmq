@@ -19,7 +19,7 @@ public class ToQueueProcess implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        log.info("ToQueueProcessor");
+        log.info("ToQueueProcess");
         String body = (String) exchange.getIn().getBody();
         jmsTemplate.convertAndSend(queueDev2, body, messagePostProcessor -> {
             messagePostProcessor.setStringProperty("ADAPTER", "CONSUMER");

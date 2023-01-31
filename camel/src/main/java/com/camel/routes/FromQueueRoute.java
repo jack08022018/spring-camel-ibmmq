@@ -47,9 +47,7 @@ public class FromQueueRoute extends RouteBuilder {
 		from("ibmmq:queue:" + queueDev1)
 				.transacted()
 				.filter(header("ADAPTER").isEqualTo("CAMEL"))
-				.process(exchange -> {
-					cityService.saveCity("Ziguinchor" + postfix);
-				})
+				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
 //					int a = 1/0;

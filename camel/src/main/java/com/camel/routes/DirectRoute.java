@@ -34,7 +34,6 @@ public class DirectRoute extends RouteBuilder {
 				.markRollbackOnlyLast()
 				.end();
 
-		from("direct:start").log("START CAMEL!!!");
 		from("direct:hello")
 				.process(exchange -> {
 //					int a = 1/0;
@@ -53,12 +52,8 @@ public class DirectRoute extends RouteBuilder {
 		from("direct:handleTransactional")
 				.transacted()
 //				.bean(apiService, "handleTransactional")
-				.process(exchange -> {
-					cityService.saveCity("Ziguinchor" + postfix);
-				})
-//				.process(exchange -> {
-//					actorService.saveActor("THORA" + postfix);
-//				})
+				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
+//				.process(exchange -> actorService.saveActor("THORA" + postfix))
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
 					int a = 1/0;
