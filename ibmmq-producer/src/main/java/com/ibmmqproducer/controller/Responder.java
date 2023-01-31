@@ -23,7 +23,7 @@ import javax.jms.*;
 //@Component
 public class Responder implements SessionAwareMessageListener {
 
-  @JmsListener(destination = "${queues.queueDev}")
+  @JmsListener(destination = "${queues.queueDev1}")
   @Transactional(rollbackFor = Exception.class)
   public void onMessage(Message msg, Session session) throws JMSException {
     String text;

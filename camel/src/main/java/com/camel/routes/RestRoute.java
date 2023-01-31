@@ -2,7 +2,6 @@ package com.camel.routes;
 
 import com.camel.config.ExceptionHandler;
 import com.camel.dto.User;
-import com.camel.process.MyProcessor;
 import com.camel.service.ApiService;
 import com.camel.service.ServiceBean;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class RestRoute extends RouteBuilder {
-	final MyProcessor myProcessor;
 	final ServiceBean serviceBean;
 	final ApiService apiService;
 	final ExceptionHandler exceptionHandler;

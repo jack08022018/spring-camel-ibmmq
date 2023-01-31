@@ -30,9 +30,14 @@ public class Consumer {
 //        }
     }
 
-    @JmsListener(destination = "${queues.queueDev}", selector = "ADAPTER = 'CONSUMER'")
+    @JmsListener(destination = "${queues.queueDev1}", selector = "ADAPTER = 'CONSUMER'")
     public void receiveLow(Message message) throws JMSException {
-        log.info("CONSUMER: "+ message.getPayload());
+        log.info("\nreceive from DEV.QUEUE.1: "+ message.getPayload());
+    }
+
+    @JmsListener(destination = "${queues.queueDev2}", selector = "ADAPTER = 'CONSUMER'")
+    public void receiveConsume(Message message) throws JMSException {
+        log.info("\nreceive from DEV.QUEUE.2: "+ message.getPayload());
     }
 
 }

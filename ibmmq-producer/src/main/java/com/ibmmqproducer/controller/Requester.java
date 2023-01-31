@@ -30,8 +30,8 @@ import javax.jms.TextMessage;
 public class Requester {
     final JmsTemplate jmsTemplate;
 
-    @Value("${queues.queueDev}")
-    private String queueDev;
+    @Value("${queues.queueDev1}")
+    private String queueDev1;
 
     @GetMapping("sendAndWaitForResponse")
     String sendAndWaitForResponse() {
@@ -39,7 +39,7 @@ public class Requester {
 //            jmsTemplate.convertAndSend(queueDev, "Hello World!");
             jmsTemplate.setReceiveTimeout(5 * 1000);
             String payload = "Hello from IBM MQ at ";
-            Message replyMsg = jmsTemplate.sendAndReceive(queueDev, new MessageCreator() {
+            Message replyMsg = jmsTemplate.sendAndReceive(queueDev1, new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     TextMessage message = session.createTextMessage(payload);

@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
     final JmsTemplate jmsTemplate;
 
-    @Value("${queues.queueDev}")
-    private String queueDev;
+    @Value("${queues.queueDev1}")
+    private String queueDev1;
 
     @GetMapping("recv")
     String recv(){
         try{
-            return jmsTemplate.receiveAndConvert(queueDev).toString();
+            return jmsTemplate.receiveAndConvert(queueDev1).toString();
         }catch(JmsException ex){
             ex.printStackTrace();
             return "FAIL";

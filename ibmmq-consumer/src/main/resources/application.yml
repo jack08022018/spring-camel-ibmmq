@@ -9,7 +9,8 @@ ibm:
     connName: localhost(1414)
     user: admin
     password: passw0rd
-queues.queueDev: DEV.QUEUE.1
+queues.queueDev1: DEV.QUEUE.1
+queues.queueDev2: DEV.QUEUE.2
 
 spring:
   application.name: ibmmq-consumer
