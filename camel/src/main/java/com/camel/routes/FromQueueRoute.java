@@ -6,6 +6,7 @@ import com.camel.service.ActorService;
 import com.camel.service.ApiService;
 import com.camel.service.CityService;
 import com.camel.service.ServiceBean;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
@@ -25,9 +26,6 @@ public class FromQueueRoute extends RouteBuilder {
 
 	@Value("${queues.queueDev1}")
 	private String queueDev1;
-
-	@Value("${queues.queueDev2}")
-	private String queueDev2;
 
 	@Override
 	public void configure() throws Exception {
@@ -50,7 +48,7 @@ public class FromQueueRoute extends RouteBuilder {
 				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
-//					int a = 1/0;
+					int a = 1/0;
 					exchange.getIn().setBody("success");
 				})
 				.process(toQueueProcess)

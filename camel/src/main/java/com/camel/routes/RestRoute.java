@@ -65,9 +65,6 @@ public class RestRoute extends RouteBuilder {
 //				.endParam()
 				.to("direct:importExcel");
 
-//				.get("/search?country={country}")
-//				.to("bean:searchBean?method=byCountry(${header.country})");
-
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.camel.process;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
@@ -26,6 +27,7 @@ public class ToQueueErrorProcess implements Processor {
         result.put("status", "error");
         result.put("message", caused.getMessage());
         exchange.getIn().setBody(result);
+        exchange.getIn().setHeader(Exchange.HTTP_RESPONSE_CODE, 400);
 //        log.info(String.valueOf(result));
 
         jmsTemplate.convertAndSend(queueDev2, String.valueOf(result), messagePostProcessor -> {
