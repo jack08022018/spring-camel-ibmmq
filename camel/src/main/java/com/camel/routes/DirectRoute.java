@@ -1,6 +1,6 @@
 package com.camel.routes;
 
-import com.camel.config.ExceptionHandler;
+import com.camel.process.RestExceptionHandler;
 import com.camel.service.ActorService;
 import com.camel.service.ApiService;
 import com.camel.service.CityService;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class DirectRoute extends RouteBuilder {
 	final ServiceBean serviceBean;
 	final ApiService apiService;
-	final ExceptionHandler exceptionHandler;
+	final RestExceptionHandler restExceptionHandler;
 	final CityService cityService;
 	final ActorService actorService;
 
@@ -29,7 +29,7 @@ public class DirectRoute extends RouteBuilder {
 		onException(Exception.class)
 //				.handled(true)
 //				.maximumRedeliveries(2)
-				.process(exceptionHandler)
+				.process(restExceptionHandler)
 				.handled(true)
 				.markRollbackOnlyLast()
 				.end();

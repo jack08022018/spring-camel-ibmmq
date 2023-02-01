@@ -1,18 +1,14 @@
-package com.camel.config;
+package com.camel.process;
 
-import io.netty.handler.codec.http.HttpStatusClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.camel.CamelException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
-import java.util.Map;
-
 @Slf4j
 @Component
-public class ExceptionHandler implements Processor {
+public class RestExceptionHandler implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         Throwable caused = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Throwable.class);

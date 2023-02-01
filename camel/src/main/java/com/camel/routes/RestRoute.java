@@ -1,6 +1,6 @@
 package com.camel.routes;
 
-import com.camel.config.ExceptionHandler;
+import com.camel.process.RestExceptionHandler;
 import com.camel.dto.User;
 import com.camel.service.ApiService;
 import com.camel.service.ServiceBean;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class RestRoute extends RouteBuilder {
 	final ServiceBean serviceBean;
 	final ApiService apiService;
-	final ExceptionHandler exceptionHandler;
+	final RestExceptionHandler restExceptionHandler;
 
 	@Override
 	public void configure() throws Exception {
@@ -36,7 +36,7 @@ public class RestRoute extends RouteBuilder {
 
 		onException(Exception.class)
 //				.maximumRedeliveries(2)
-				.process(exceptionHandler)
+				.process(restExceptionHandler)
 				.handled(true)
 				.markRollbackOnlyLast()
 				.end();

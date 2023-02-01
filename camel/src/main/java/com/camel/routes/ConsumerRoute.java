@@ -1,7 +1,7 @@
 package com.camel.routes;
 
-import com.camel.process.ToQueueErrorProcess;
-import com.camel.process.ToQueueProcess;
+import com.camel.process.ConsumerExceptionHandler;
+import com.camel.process.ConsumerSuccessHandler;
 import com.camel.service.ActorService;
 import com.camel.service.ApiService;
 import com.camel.service.CityService;
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FromQueueRoute extends RouteBuilder {
+public class ConsumerRoute extends RouteBuilder {
 	final ServiceBean serviceBean;
 	final ApiService apiService;
-	final ToQueueErrorProcess toQueueErrorProcess;
-	final ToQueueProcess toQueueProcess;
+	final ConsumerExceptionHandler consumerExceptionHandler;
+	final ConsumerSuccessHandler consumerSuccessHandler;
 	final CityService cityService;
 	final ActorService actorService;
 
@@ -34,7 +34,7 @@ public class FromQueueRoute extends RouteBuilder {
 
 		onException(Exception.class)
 //				.maximumRedeliveries(2)
-				.process(toQueueErrorProcess)
+				.process(consumerExceptionHandler)
 				.handled(true)
 				.markRollbackOnlyLast()
 				.end();
@@ -51,7 +51,7 @@ public class FromQueueRoute extends RouteBuilder {
 					int a = 1/0;
 					exchange.getIn().setBody("success");
 				})
-				.process(toQueueProcess)
+				.process(consumerSuccessHandler)
 				.log("CAMEL: ${body}");
 
 	}
