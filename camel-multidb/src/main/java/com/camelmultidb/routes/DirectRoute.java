@@ -4,10 +4,7 @@ import com.camelmultidb.enumerator.Status;
 import com.camelmultidb.process.RestExceptionHandler;
 import com.camelmultidb.repository.mariaDB.CountryRepository;
 import com.camelmultidb.repository.mssql.RentalNewRepository;
-import com.camelmultidb.service.ApiService;
-import com.camelmultidb.service.CityService;
-import com.camelmultidb.service.RentalService;
-import com.camelmultidb.service.ServiceBean;
+import com.camelmultidb.service.*;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +21,7 @@ public class DirectRoute extends RouteBuilder {
 	final RestExceptionHandler restExceptionHandler;
 	final CityService cityService;
 	final RentalService rentalService;
+	final RestService restService;
 //	final ActorService actorService;
 	final RentalNewRepository rentalNewRepository;
 	final CountryRepository countryRepository;
@@ -56,7 +54,12 @@ public class DirectRoute extends RouteBuilder {
 //				.to("ibmmq:queue:DEV.QUEUE.1");
 
 		from("direct:getActor")
-				.bean(apiService, "getActor");
+//				.bean(apiService, "getActor")
+				.bean(restService, "getUser")
+				.process(exchange -> {
+//					var body = exchange.getIn().getBody();
+//					System.out.println(exchange.getIn().getBody());
+				});
 //				.unmarshal().json(Object.class);
 //				.marshal(jsonDf);
 

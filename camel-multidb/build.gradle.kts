@@ -38,6 +38,7 @@ dependencies {
 	implementation("org.apache.poi:poi-ooxml:5.2.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("org.javamoney:moneta:1.4.2")
+	implementation("org.springframework:spring-web")
 
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

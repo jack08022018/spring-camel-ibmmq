@@ -7,11 +7,13 @@ import com.jpa.repository.RentalRepository;
 import com.jpa.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -76,4 +78,13 @@ public class ApiController {
         return (T) rentalRepository.windowFunctions();
     }
 
+    @PostMapping("/getUser")
+    public ModelMap getUser() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(10);
+        ModelMap result = new ModelMap();
+        result.put("id", 1);
+        result.put("name", "King");
+//        int a = 1/0;
+        return result;
+    }
 }
