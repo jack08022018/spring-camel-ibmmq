@@ -4,7 +4,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "2.7.7"
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
-	id("org.springframework.experimental.aot") version "0.12.2"
+//	id("org.springframework.experimental.aot") version "0.12.2"
 }
 
 group = "com"
@@ -32,7 +32,8 @@ dependencies {
 	implementation("org.apache.camel:camel-jms:3.20.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-//	implementation("com.microsoft.sqlserver:mssql-jdbc")
+	implementation("com.microsoft.sqlserver:mssql-jdbc")
+	implementation("org.apache.commons:commons-dbcp2:2.9.0")
 	implementation("org.apache.poi:poi:5.2.2")
 	implementation("org.apache.poi:poi-ooxml:5.2.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")

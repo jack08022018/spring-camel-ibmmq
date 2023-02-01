@@ -1,4 +1,4 @@
-package com.camel.process;
+package com.camelmultidb.process;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

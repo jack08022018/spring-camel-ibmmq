@@ -1,11 +1,9 @@
-package com.camel.routes;
+package com.camelmultidb.routes;
 
-import com.camel.process.ConsumerExceptionHandler;
-import com.camel.process.ConsumerSuccessHandler;
-import com.camel.service.ActorService;
-import com.camel.service.ApiService;
-import com.camel.service.CityService;
-import com.camel.service.ServiceBean;
+import com.camelmultidb.process.ConsumerExceptionHandler;
+import com.camelmultidb.process.ConsumerSuccessHandler;
+import com.camelmultidb.service.ApiService;
+import com.camelmultidb.service.ServiceBean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
@@ -20,8 +18,8 @@ public class ConsumerRoute extends RouteBuilder {
 	final ApiService apiService;
 	final ConsumerExceptionHandler consumerExceptionHandler;
 	final ConsumerSuccessHandler consumerSuccessHandler;
-	final CityService cityService;
-	final ActorService actorService;
+//	final CityService cityService;
+//	final ActorService actorService;
 
 	@Value("${queues.queueDev1}")
 	private String queueDev1;
@@ -48,10 +46,10 @@ public class ConsumerRoute extends RouteBuilder {
 		String postfix = " 9";
 //		from("ibmmq:queue:DEV.QUEUE.1?selector=ADAPTER='CAMEL'")
 		from("ibmmq:queue:" + queueDev1)
-				.transacted()
+				.transacted("txPolicyMariadb")
 				.filter(header(selectorKey).isEqualTo(selectorCamel))
 				.log("Receive DEV.QUEUE.1: ${body}")
-				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
+//				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
 					int a = 1/0;

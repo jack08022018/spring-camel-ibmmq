@@ -17,12 +17,18 @@ public class ConsumerSuccessHandler implements Processor {
     @Value("${queues.queueDev2}")
     private String queueDev2;
 
+    @Value("${queue.selector.key}")
+    private String selectorKey;
+
+    @Value("${queue.selector.consumer}")
+    private String selectorConsumer;
+
     @Override
     public void process(Exchange exchange) throws Exception {
         log.info("ToQueueProcess");
         String body = (String) exchange.getIn().getBody();
         jmsTemplate.convertAndSend(queueDev2, body, messagePostProcessor -> {
-            messagePostProcessor.setStringProperty("ADAPTER", "CONSUMER");
+            messagePostProcessor.setStringProperty(selectorKey, selectorConsumer);
             return messagePostProcessor;
         });
     }

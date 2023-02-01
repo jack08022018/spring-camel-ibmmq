@@ -1,11 +1,14 @@
-package com.camel.routes;
+package com.camelmultidb.routes;
 
-import com.camel.process.RestExceptionHandler;
-import com.camel.repository.CountryRepository;
-import com.camel.service.ActorService;
-import com.camel.service.ApiService;
-import com.camel.service.CityService;
-import com.camel.service.ServiceBean;
+import com.camelmultidb.enumerator.Status;
+import com.camelmultidb.process.RestExceptionHandler;
+import com.camelmultidb.repository.mariaDB.CountryRepository;
+import com.camelmultidb.repository.mssql.RentalNewRepository;
+import com.camelmultidb.service.ApiService;
+import com.camelmultidb.service.CityService;
+import com.camelmultidb.service.RentalService;
+import com.camelmultidb.service.ServiceBean;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
@@ -20,7 +23,9 @@ public class DirectRoute extends RouteBuilder {
 	final ApiService apiService;
 	final RestExceptionHandler restExceptionHandler;
 	final CityService cityService;
-	final ActorService actorService;
+	final RentalService rentalService;
+//	final ActorService actorService;
+	final RentalNewRepository rentalNewRepository;
 	final CountryRepository countryRepository;
 
 	@Override
@@ -39,8 +44,12 @@ public class DirectRoute extends RouteBuilder {
 
 		from("direct:hello")
 				.process(exchange -> {
+					var data = rentalNewRepository.findAll();
 					var country = countryRepository.findById(1).get();
-					exchange.getIn().setBody(country);
+					JsonObject json = new JsonObject();
+					json.put("rental", data);
+					json.put("country", country);
+					exchange.getIn().setBody(json);
 				});
 //				.transform(simple("Random number ${random(0,100)}"))
 //				.transform().constant("Hello World direct")
@@ -51,28 +60,29 @@ public class DirectRoute extends RouteBuilder {
 //				.unmarshal().json(Object.class);
 //				.marshal(jsonDf);
 
-		String postfix = " 8";
+		String postfix = " 11";
+		int inventoryId = 11;
 		from("direct:handleTransactional")
-				.transacted()
+				.transacted("txPolicyMariadb")
 //				.bean(apiService, "handleTransactional")
 				.process(exchange -> cityService.saveCity("Ziguinchor" + postfix))
-//				.process(exchange -> actorService.saveActor("THORA" + postfix))
+				.process(exchange -> rentalService.saveRental(inventoryId))
 				.process(exchange -> {
 					System.out.println("aaa: " + exchange.getIn().getBody().toString());
 					int a = 1/0;
 					exchange.getIn().setBody("success");
 				});
-
-		from("direct:importExcel")
-//				.unmarshal().mimeMultipart()
-//				.setHeader(Exchange.CONTENT_TYPE, constant("multipart/form-data"))
-				.transacted()
-				.bean(apiService, "importExcel")
-				.process(exchange -> {
-					System.out.println("aaa: " + exchange.getIn().getBody().toString());
-//					int a = 1/0;
-					exchange.getIn().setBody("success");
-				});
+//
+//		from("direct:importExcel")
+////				.unmarshal().mimeMultipart()
+////				.setHeader(Exchange.CONTENT_TYPE, constant("multipart/form-data"))
+//				.transacted()
+//				.bean(apiService, "importExcel")
+//				.process(exchange -> {
+//					System.out.println("aaa: " + exchange.getIn().getBody().toString());
+////					int a = 1/0;
+//					exchange.getIn().setBody("success");
+//				});
 
 //		from("timer:timer1?period={{timer.period}}")
 //				.process(myProcessor)
