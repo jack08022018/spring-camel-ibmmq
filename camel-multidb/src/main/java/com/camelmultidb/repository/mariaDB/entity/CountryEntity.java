@@ -30,7 +30,7 @@ public class CountryEntity {
     private String country;
 
     @Column(name = "last_update")
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
 
     @OneToMany(
             mappedBy = "country",

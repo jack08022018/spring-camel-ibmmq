@@ -8,6 +8,7 @@ import com.camelmultidb.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.util.json.JsonObject;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.stereotype.Component;
 
@@ -42,16 +43,13 @@ public class DirectRoute extends RouteBuilder {
 
 		from("direct:hello")
 				.process(exchange -> {
-					var entity = rentalNewRepository.findById(152).get();
-					entity.setStatus(Status.COMPLETED);
-					rentalNewRepository.save(entity);
 //					exchange.getIn().setBody(encryptorBean.encrypt("A!123456"));
 //					var data = rentalNewRepository.findAll();
-//					var country = countryRepository.findById(1).get();
-//					JsonObject json = new JsonObject();
+					var country = countryRepository.findById(1).get();
+					JsonObject json = new JsonObject();
 //					json.put("rental", data);
-//					json.put("country", country);
-//					exchange.getIn().setBody(json);
+					json.put("country", country);
+					exchange.getIn().setBody(json);
 				});
 //				.transform(simple("Random number ${random(0,100)}"))
 //				.transform().constant("Hello World direct")
