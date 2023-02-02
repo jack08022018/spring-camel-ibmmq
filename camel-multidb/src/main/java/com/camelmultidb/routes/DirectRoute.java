@@ -3,7 +3,6 @@ package com.camelmultidb.routes;
 import com.camelmultidb.enumerator.Status;
 import com.camelmultidb.process.RestExceptionHandler;
 import com.camelmultidb.repository.mariaDB.CountryRepository;
-import com.camelmultidb.repository.mariaDB.RentalMariaRepository;
 import com.camelmultidb.repository.mssql.RentalNewRepository;
 import com.camelmultidb.service.*;
 import lombok.RequiredArgsConstructor;
