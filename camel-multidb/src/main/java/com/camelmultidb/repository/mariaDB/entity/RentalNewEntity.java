@@ -1,4 +1,4 @@
-package com.camelmultidb.repository.mssql.entity;
+package com.camelmultidb.repository.mariaDB.entity;
 
 import com.camelmultidb.enumerator.Status;
 import com.camelmultidb.enumerator.StatusConverter;
@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data

@@ -54,16 +54,16 @@ public class RestRoute extends RouteBuilder {
 //				.to("bean:serviceBean?method=toUpper")
 //
 				.post("/handleTransactional").type(User.class)//.outType(String.class)
-				.to("direct:handleTransactional");
+				.to("direct:handleTransactional")
 //
-//				.post("/importExcel")
+				.post("/importExcel")
 //				.consumes("multipart/form-data")
 //				.param().name("file")
 //					.type(RestParamType.header)
 ////					.defaultValue("false")
 ////					.description("Verbose order details")
 //				.endParam()
-//				.to("direct:importExcel");
+				.to("direct:importExcel");
 
 	}
 

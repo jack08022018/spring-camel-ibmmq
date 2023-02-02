@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum Status {
     NEW("NE", ""),
-    PENDING("PE", "");
+    PENDING("PE", ""),
+    COMPLETED("CP", "");
 
     private final String code;
     private final String detail;

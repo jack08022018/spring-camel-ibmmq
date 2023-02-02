@@ -3,13 +3,13 @@ package com.camelmultidb.routes;
 import com.camelmultidb.enumerator.Status;
 import com.camelmultidb.process.RestExceptionHandler;
 import com.camelmultidb.repository.mariaDB.CountryRepository;
+import com.camelmultidb.repository.mariaDB.RentalMariaRepository;
 import com.camelmultidb.repository.mssql.RentalNewRepository;
 import com.camelmultidb.service.*;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.util.json.JsonObject;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -25,6 +25,7 @@ public class DirectRoute extends RouteBuilder {
 //	final ActorService actorService;
 	final RentalNewRepository rentalNewRepository;
 	final CountryRepository countryRepository;
+	final StringEncryptor encryptorBean;
 
 	@Override
 	public void configure() throws Exception {
@@ -42,20 +43,24 @@ public class DirectRoute extends RouteBuilder {
 
 		from("direct:hello")
 				.process(exchange -> {
-					var data = rentalNewRepository.findAll();
-					var country = countryRepository.findById(1).get();
-					JsonObject json = new JsonObject();
-					json.put("rental", data);
-					json.put("country", country);
-					exchange.getIn().setBody(json);
+					var entity = rentalNewRepository.findById(152).get();
+					entity.setStatus(Status.COMPLETED);
+					rentalNewRepository.save(entity);
+//					exchange.getIn().setBody(encryptorBean.encrypt("A!123456"));
+//					var data = rentalNewRepository.findAll();
+//					var country = countryRepository.findById(1).get();
+//					JsonObject json = new JsonObject();
+//					json.put("rental", data);
+//					json.put("country", country);
+//					exchange.getIn().setBody(json);
 				});
 //				.transform(simple("Random number ${random(0,100)}"))
 //				.transform().constant("Hello World direct")
 //				.to("ibmmq:queue:DEV.QUEUE.1");
 
 		from("direct:getActor")
-//				.bean(apiService, "getActor")
-				.bean(restService, "getUser")
+				.bean(apiService, "getActor")
+//				.bean(restService, "getUser")
 				.process(exchange -> {
 //					var body = exchange.getIn().getBody();
 //					System.out.println(exchange.getIn().getBody());
@@ -76,16 +81,16 @@ public class DirectRoute extends RouteBuilder {
 					exchange.getIn().setBody("success");
 				});
 //
-//		from("direct:importExcel")
-////				.unmarshal().mimeMultipart()
-////				.setHeader(Exchange.CONTENT_TYPE, constant("multipart/form-data"))
-//				.transacted()
-//				.bean(apiService, "importExcel")
-//				.process(exchange -> {
-//					System.out.println("aaa: " + exchange.getIn().getBody().toString());
-////					int a = 1/0;
-//					exchange.getIn().setBody("success");
-//				});
+		from("direct:importExcel")
+//				.unmarshal().mimeMultipart()
+//				.setHeader(Exchange.CONTENT_TYPE, constant("multipart/form-data"))
+				.transacted("txPolicyMssql")
+				.bean(apiService, "importExcel")
+				.process(exchange -> {
+					System.out.println("aaa: " + exchange.getIn().getBody().toString());
+//					int a = 1/0;
+					exchange.getIn().setBody("success");
+				});
 
 //		from("timer:timer1?period={{timer.period}}")
 //				.process(myProcessor)

@@ -1,12 +1,15 @@
 package com.camelmultidb.config.datasources;
 
 import com.camelmultidb.repository.mariaDB.entity.ActorEntity;
+import lombok.RequiredArgsConstructor;
 import org.apache.camel.spring.spi.SpringTransactionPolicy;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,27 +22,33 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = "com.camelmultidb.repository.mariadb",
         entityManagerFactoryRef = "mariadbEntityManagerFactory",
         transactionManagerRef= "mariadbTransactionManager")
 public class MariaDbConfig {
+    final StringEncryptor encryptorBean;
 
     @Value("${mariadb.datasource.dialect}")
     private String hibernateDialect;
 
-    @Bean(name = "mariadbProperties")
-    @ConfigurationProperties("mariadb.datasource")
-    public DataSourceProperties getProperties() {
-        return new DataSourceProperties();
-    }
+    @Value("${mariadb.datasource.url}")
+    private String url;
+
+    @Value("${mariadb.datasource.username}")
+    private String username;
+
+    @Value("${mariadb.datasource.password}")
+    private String password;
 
     @Bean(name = "mariadbDataSource")
     @ConfigurationProperties("mariadb.datasource.configuration")
     public DataSource getDataSource() {
-        return getProperties()
-                .initializeDataSourceBuilder()
-                .type(BasicDataSource.class)
-                .build();
+        return DataSourceBuilder.create()
+            .url(url)
+            .username(username)
+            .password(encryptorBean.decrypt(password))
+            .build();
     }
 
     @Bean(name = "mariadbEntityManagerFactory")

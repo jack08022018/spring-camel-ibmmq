@@ -1,12 +1,15 @@
 package com.camelmultidb.config.datasources;
 
 import com.camelmultidb.repository.mssql.entity.RentalNewEntity;
+import lombok.RequiredArgsConstructor;
 import org.apache.camel.spring.spi.SpringTransactionPolicy;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,28 +23,33 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = "com.camelmultidb.repository.mssql",
             entityManagerFactoryRef = "mssqlEntityManagerFactory",
             transactionManagerRef= "mssqlTransactionManager")
 public class MssqlConfig {
+    final StringEncryptor encryptorBean;
 
-    @Value("${mariadb.datasource.dialect}")
+    @Value("${mssql.datasource.dialect}")
     private String hibernateDialect;
 
-    @Primary
-    @Bean(name = "mssqlProperties")
-    @ConfigurationProperties("mssql.datasource")
-    public DataSourceProperties getProperties() {
-        return new DataSourceProperties();
-    }
+    @Value("${mssql.datasource.url}")
+    private String url;
+
+    @Value("${mssql.datasource.username}")
+    private String username;
+
+    @Value("${mssql.datasource.password}")
+    private String password;
 
     @Primary
     @Bean(name = "mssqlDataSource")
     @ConfigurationProperties("mssql.datasource.configuration")
     public DataSource getDataSource() {
-        return getProperties()
-                .initializeDataSourceBuilder()
-                .type(BasicDataSource.class)
+        return DataSourceBuilder.create()
+                .url(url)
+                .username(username)
+                .password(encryptorBean.decrypt(password))
                 .build();
     }
 

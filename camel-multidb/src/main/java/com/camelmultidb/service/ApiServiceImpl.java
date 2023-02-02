@@ -28,16 +28,22 @@ public class ApiServiceImpl implements ApiService {
 //    final CityService cityService;
     final RentalNewRepository rentalNewRepository;
     final ActorRepository actorRepository;
+    final CityService cityService;
+    final RentalService rentalService;
 
-//    @Override
-//    @Transactional
-//    public <T> T handleTransactional(User user) {
+    @Override
+    @Transactional
+    public <T> T handleTransactional(User user) {
 //        String postfix = " 13";
 //        actorService.saveActor("THORA" + postfix);
 //        cityService.saveCity("Ziguinchor" + postfix);
-////        int a = 1/0;
-//        return (T) "success";
-//    }
+
+        int inventoryId = 11;
+        cityService.saveCity("Ziguinchor " + inventoryId);
+        rentalService.saveRental(inventoryId);
+//        int a = 1/0;
+        return (T) "success";
+    }
 
     @Override
     @Transactional

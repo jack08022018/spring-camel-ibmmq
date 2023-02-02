@@ -39,6 +39,7 @@ dependencies {
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("org.javamoney:moneta:1.4.2")
 	implementation("org.springframework:spring-web")
+	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

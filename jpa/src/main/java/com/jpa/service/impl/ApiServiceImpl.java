@@ -97,6 +97,9 @@ public class ApiServiceImpl implements ApiService {
     @Override
     @Transactional
     public <T> T testJpaSave() {
+        RentalNewEntity rental = rentalNewRepository.findById(2).get();
+        rental.setStatus(Status.NEW);
+        rentalNewRepository.save(rental);
 //        CountryEntity entity = countryRepository.findById(1).get();
         ActorEntity entity = actorRepository.findById(200).get();
 //        ActorEntity entity = rentalDao.findActorWithLock(200);

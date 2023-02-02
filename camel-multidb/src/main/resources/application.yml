@@ -35,13 +35,13 @@ spring:
         use-new-id-generator-mappings: true
 mariadb.datasource.url: jdbc:mariadb://localhost:3308/sakila
 mariadb.datasource.username: root
-mariadb.datasource.password: 123456
+mariadb.datasource.password: lUYIMYPerqc4nRrcHA4j0A==
 mariadb.datasource.dialect: org.hibernate.dialect.MariaDB103Dialect
 #mariadb.datasource.driver-class-name: org.mariadb.jdbc.Driver
 
 mssql.datasource.url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=sakila
 mssql.datasource.username: sa
-mssql.datasource.password: A!123456
+mssql.datasource.password: eJ8piivMCOYamnWNU87aIExyAbRXD1iW
 mssql.datasource.dialect: org.hibernate.dialect.SQLServer2012Dialect
 #mssql.datasource.driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
