@@ -2,6 +2,7 @@ package com.atomikos.repository.mariaDB.entity;
 
 import com.atomikos.repository.mariaDB.entity.CountryEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import java.util.Date;
 @Entity
 @Table(name = "city")
 public class CityEntity {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
@@ -28,6 +30,7 @@ public class CityEntity {
     @Column(name = "city")
     private String city;
 
+    @JsonIgnore
     @Column(name = "last_update")
     private Date lastUpdate;
 

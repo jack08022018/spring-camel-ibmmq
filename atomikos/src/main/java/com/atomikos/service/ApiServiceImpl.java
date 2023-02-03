@@ -1,36 +1,42 @@
 package com.atomikos.service;
 
-import com.atomikos.dto.User;
-import com.atomikos.repository.mariaDB.ActorRepository;
+import com.atomikos.repository.mariaDB.CityRepository;
 import com.atomikos.repository.mssql.RentalNewRepository;
+import com.atomikos.repository.mymsdb.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ApiServiceImpl implements ApiService {
-//    final ActorService actorService;
-//    final CityService cityService;
     final RentalNewRepository rentalNewRepository;
-    final ActorRepository actorRepository;
+    final CategoryRepository categoryRepository;
     final CityService cityService;
     final RentalService rentalService;
+    final CategoryService categoryService;
+    final CityRepository cityRepository;
 
     @Override
     @Transactional
-    public <T> T handleTransactional(User user) {
+    public <T> T handleTransactional() {
 //        String postfix = " 13";
 //        actorService.saveActor("THORA" + postfix);
 //        cityService.saveCity("Ziguinchor" + postfix);
+//        var entity = CategoryEntity.builder()
+//                .name("Category")
+//                .lastUpdate(LocalDateTime.now())
+//                .build();
+//        categoryRepository.save(entity);
 
-        int inventoryId = 11;
-        cityService.saveCity("Ziguinchor " + inventoryId);
+        int inventoryId = 20;
         rentalService.saveRental(inventoryId);
-//        int a = 1/0;
+        categoryService.saveCategory("Category " + inventoryId);
+        int a = 1/0;
         return (T) "success";
     }
 
@@ -40,9 +46,15 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public <T> T getActor() {
-        var data = actorRepository.findTop2ByLastName();
-        return (T) data;
+    public <T> T getDataTransaction() {
+        ModelMap result = new ModelMap();
+        var category = categoryRepository.findById(52).get();
+        var rental = rentalNewRepository.findById(152).get();
+        var city = cityRepository.findById(600).get();
+        result.put("category", category);
+        result.put("rental", rental);
+        result.put("city", city);
+        return (T) result;
     }
 
 }

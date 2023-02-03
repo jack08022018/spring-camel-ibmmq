@@ -29,6 +29,10 @@ mssql.datasource.username: sa
 mssql.datasource.password: A!123456
 mssql.datasource.dialect: org.hibernate.dialect.SQLServer2012Dialect
 
+mymsdb.datasource.url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=mymsdb
+mymsdb.datasource.username: sa
+mymsdb.datasource.password: A!123456
+
 logging:
   level:
     root: INFO

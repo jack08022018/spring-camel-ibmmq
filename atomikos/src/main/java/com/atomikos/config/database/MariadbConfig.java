@@ -2,10 +2,9 @@ package com.atomikos.config.database;
 
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mariadb.jdbc.MariaDbDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -14,6 +13,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 @Configuration
@@ -40,14 +40,14 @@ public class MariadbConfig {
 
 	@Bean(name = "mariadbDataSource", initMethod = "init", destroyMethod = "close")
 	@ConfigurationProperties("mariadb.datasource.configuration")
-	public DataSource getDataSource() {
-//		var dataSource = new MariaDbDataSource();
-//		dataSource.setURL(url);
-//		dataSource.setUser(username);
-//		dataSource.setPassword(password);
+	public DataSource getDataSource() throws SQLException {
+		var dataSource = new MariaDbDataSource();
+		dataSource.setUrl(url);
+		dataSource.setUser(username);
+		dataSource.setPassword(password);
 
 		var xaDataSource = new AtomikosDataSourceBean();
-//		xaDataSource.setXaDataSource(dataSource);
+		xaDataSource.setXaDataSource(dataSource);
 		xaDataSource.setUniqueResourceName("xa-mariadb");
 		return xaDataSource;
 	}
@@ -55,7 +55,7 @@ public class MariadbConfig {
 	@Bean(name = "mariadbEntityManager")
 	@DependsOn("transactionManager")
 	public LocalContainerEntityManagerFactoryBean customerEntityManager() throws Throwable {
-		HashMap<String, Object> properties = new HashMap<String, Object>();
+		HashMap<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
 		properties.put("javax.persistence.transactionType", "JTA");
 

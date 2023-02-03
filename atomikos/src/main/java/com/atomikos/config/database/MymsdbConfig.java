@@ -13,33 +13,31 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 @Configuration
 @RequiredArgsConstructor
 @DependsOn("transactionManager")
-@EnableJpaRepositories(basePackages = "com.atomikos.repository.mssql",
-		entityManagerFactoryRef = "mssqlEntityManager",
+@EnableJpaRepositories(basePackages = "com.atomikos.repository.mymsdb",
+		entityManagerFactoryRef = "mymsdbEntityManager",
 		transactionManagerRef = "transactionManager")
-public class MssqlConfig {
+public class MymsdbConfig {
 
-	@Value("${mssql.datasource.dialect}")
-	private String hibernateDialect;
-
-	@Value("${mssql.datasource.url}")
+	@Value("${mymsdb.datasource.url}")
 	private String url;
 
-	@Value("${mssql.datasource.username}")
+	@Value("${mymsdb.datasource.username}")
 	private String username;
 
-	@Value("${mssql.datasource.password}")
+	@Value("${mymsdb.datasource.password}")
 	private String password;
 
 	final JpaVendorAdapter mssqlVendorAdapter;
 
-	@Bean(name = "mssqlDataSource", initMethod = "init", destroyMethod = "close")
-	@ConfigurationProperties("mssql.datasource.configuration")
-	public DataSource getDataSource() {
+	@Bean(name = "mymsdbDataSource", initMethod = "init", destroyMethod = "close")
+	@ConfigurationProperties("mymsdb.datasource.configuration")
+	public DataSource getDataSource() throws SQLException {
 		var dataSource = new SQLServerXADataSource();
 		dataSource.setURL(url);
 		dataSource.setUser(username);
@@ -47,21 +45,21 @@ public class MssqlConfig {
 
 		var xaDataSource = new AtomikosDataSourceBean();
 		xaDataSource.setXaDataSource(dataSource);
-		xaDataSource.setUniqueResourceName("xa-mssql");
+		xaDataSource.setUniqueResourceName("xa-mymsdb");
 		return xaDataSource;
 	}
 
-	@Bean(name = "mssqlEntityManager")
+	@Bean(name = "mymsdbEntityManager")
 	@DependsOn("transactionManager")
 	public LocalContainerEntityManagerFactoryBean customerEntityManager() throws Throwable {
-		HashMap<String, Object> properties = new HashMap<String, Object>();
+		HashMap<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
 		properties.put("javax.persistence.transactionType", "JTA");
 
 		var entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setJtaDataSource(getDataSource());
 		entityManager.setJpaVendorAdapter(mssqlVendorAdapter);
-		entityManager.setPackagesToScan("com.atomikos.repository.mssql.entity");
+		entityManager.setPackagesToScan("com.atomikos.repository.mymsdb.entity");
 		entityManager.setPersistenceUnitName("customerPersistenceUnit");
 		entityManager.setJpaPropertyMap(properties);
 		return entityManager;

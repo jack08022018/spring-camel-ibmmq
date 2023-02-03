@@ -24,13 +24,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	implementation("com.microsoft.sqlserver:mssql-jdbc")
 	implementation("org.apache.commons:commons-dbcp2:2.9.0")
 	implementation("com.atomikos:transactions:5.0.9")
 	implementation("com.atomikos:transactions-jta:5.0.9")
 	implementation("com.atomikos:transactions-jdbc:5.0.9")
-//	implementation("com.mysql:mysql-connector-j:8.0.32")
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.2")
 
 	compileOnly("org.projectlombok:lombok")

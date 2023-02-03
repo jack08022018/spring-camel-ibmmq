@@ -2,6 +2,7 @@ package com.atomikos.repository.mssql.entity;
 
 import com.atomikos.enumerator.Status;
 import com.atomikos.enumerator.StatusConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ import java.util.Date;
 @Entity
 @Table(name = "rental_new")
 public class RentalNewEntity implements Serializable {
+    @JsonIgnore
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_seq")
@@ -28,24 +30,30 @@ public class RentalNewEntity implements Serializable {
     @Column(name = "rental_id")
     private Integer rentalId;
 
+    @JsonIgnore
     @Column(name = "rental_date")
     private Date rentalDate;
 
     @Column(name = "inventory_id")
     private Integer inventoryId;
 
+    @JsonIgnore
     @Column(name = "customer_id")
     private Integer customerId;
 
+    @JsonIgnore
     @Column(name = "return_date")
     private Date returnDate;
 
+    @JsonIgnore
     @Column(name = "staff_id")
     private Integer staffId;
 
+    @JsonIgnore
     @Column(name = "last_update")
     private Date lastUpdate;
 
+    @JsonIgnore
     @Column(name = "status")
     @Convert(converter = StatusConverter.class)
     private Status status;
