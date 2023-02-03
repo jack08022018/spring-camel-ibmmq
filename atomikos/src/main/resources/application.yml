@@ -1,0 +1,42 @@
+server:
+  port: 9291
+  servlet.context-path: /atomikos
+  undertow.max-http-post-size: 0
+spring:
+  application.name: atomikos
+  main.allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+  jackson.default-property-inclusion: non_absent
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        #        generate_statistics: true
+        jdbc:
+          batch_size: 1000
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        use-new-id-generator-mappings: true
+mariadb.datasource.url: jdbc:mariadb://localhost:3308/sakila
+mariadb.datasource.username: root
+mariadb.datasource.password: 123456
+mariadb.datasource.dialect: org.hibernate.dialect.MariaDB103Dialect
+
+mssql.datasource.url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=sakila
+mssql.datasource.username: sa
+mssql.datasource.password: A!123456
+mssql.datasource.dialect: org.hibernate.dialect.SQLServer2012Dialect
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.FilterChainProxy: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+    org.hibernate.SQL: DEBUG
+    #    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

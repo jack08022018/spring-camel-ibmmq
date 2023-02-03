@@ -7,6 +7,7 @@ import com.camelmultidb.repository.mssql.RentalNewRepository;
 import com.camelmultidb.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.util.json.JsonObject;
 import org.jasypt.encryption.StringEncryptor;
@@ -57,7 +58,9 @@ public class DirectRoute extends RouteBuilder {
 
 		from("direct:getActor")
 				.bean(apiService, "getActor")
-//				.bean(restService, "getUser")
+				.bean(restService, "getUser")
+//				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+//				.to("http://localhost:9193/jpa/api/getUser")
 				.process(exchange -> {
 //					var body = exchange.getIn().getBody();
 //					System.out.println(exchange.getIn().getBody());
