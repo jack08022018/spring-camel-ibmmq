@@ -1,6 +1,8 @@
 package com.ibmmqproducer.controller;
 
 
+import com.ibmmqproducer.adapter.SenderService;
+import grpc.TransactionRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class ApiController {
     final JmsTemplate jmsTemplate;
     final ApplicationContext applicationContext;
+    final SenderService senderService;
 
     @Value("${queues.queueDev1}")
     private String queueDev1;
@@ -23,12 +26,16 @@ public class ApiController {
     private String queueDev2;
 
     @GetMapping(value = "/test")
-    public <T> T test() {
-        String[] allBeanNames = applicationContext.getBeanDefinitionNames();
-        for(String beanName : allBeanNames) {
-            System.out.println(beanName);
-        }
-        return (T) "success";
+    public <T> T test(@RequestParam String transactionId) {
+//        String[] allBeanNames = applicationContext.getBeanDefinitionNames();
+//        for(String beanName : allBeanNames) {
+//            System.out.println(beanName);
+//        }
+        TransactionRequest request = TransactionRequest.newBuilder()
+                .setTransactionId(transactionId)
+                .build();
+        var response = senderService.deduct(request);
+        return (T) response.getResult();
     }
 
     @GetMapping("send")

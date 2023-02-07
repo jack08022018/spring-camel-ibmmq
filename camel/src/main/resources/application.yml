@@ -2,6 +2,9 @@
 #  port: 9290
 #  servlet.context-path: /camel
 #  undertow.max-http-post-size: 0
+grpc.server.port: 8001
+rest.camel.context-path: /camel-rest
+rest.camel.port: 9290
 camel:
   springboot.name: RestCamel
   dataformat:

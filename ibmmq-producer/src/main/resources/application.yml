@@ -2,6 +2,14 @@ server:
   port: 9198
   servlet.context-path: /ibmmq
   undertow.max-http-post-size: 0
+grpc:
+  server.port: 8000
+  client:
+    sender-service:
+      address: 'static://localhost:8001'
+      #      enableKeepAlive: true
+      #      keepAliveWithoutCalls: true
+      negotiationType: plaintext
 ibm:
   mq:
     queueManager: QM1

@@ -34,9 +34,10 @@ public class ApiServiceImpl implements ApiService {
 //        categoryRepository.save(entity);
 
         int inventoryId = 20;
-        rentalService.saveRental(inventoryId);
-        categoryService.saveCategory("Category " + inventoryId);
-        int a = 1/0;
+//        rentalService.saveRental(inventoryId);
+//        categoryService.saveCategory("Category " + inventoryId);
+        cityService.saveCity("Ziguinchor" + inventoryId);
+//        int a = 1/0;
         return (T) "success";
     }
 
@@ -51,9 +52,9 @@ public class ApiServiceImpl implements ApiService {
         var category = categoryRepository.findById(52).get();
         var rental = rentalNewRepository.findById(152).get();
         var city = cityRepository.findById(600).get();
-        result.put("category", category);
-        result.put("rental", rental);
-        result.put("city", city);
+        result.put("category mymsdb", category);
+        result.put("rental mssql", rental);
+        result.put("city mariadb", city);
         return (T) result;
     }
 

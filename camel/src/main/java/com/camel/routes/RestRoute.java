@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -18,6 +19,12 @@ public class RestRoute extends RouteBuilder {
 	final ApiService apiService;
 	final RestExceptionHandler restExceptionHandler;
 
+	@Value("${rest.camel.context-path}")
+	private String contextPath;
+
+	@Value("${rest.camel.port}")
+	private String port;
+
 	@Override
 	public void configure() throws Exception {
 //		restConfiguration().component("servlet").bindingMode(RestBindingMode.auto);
@@ -26,8 +33,8 @@ public class RestRoute extends RouteBuilder {
 				.apiProperty("api.version", "1.0")
 				.enableCORS(true)
 				.apiProperty("cors", "true")
-				.contextPath("/camel-rest")
-				.port(9290)
+				.contextPath(contextPath)
+				.port(port)
 //				.dataFormatProperty("moduleClassNames", "com.fasterxml.jackson.datatype.jsr310.JavaTimeModule")
 //				.dataFormatProperty("disableFeatures", "WRITE_DATES_AS_TIMESTAMPS")
 				.bindingMode(RestBindingMode.json)

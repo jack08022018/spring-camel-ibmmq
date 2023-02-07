@@ -13,6 +13,7 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 
 import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan
@@ -40,6 +41,8 @@ public class DatabaseConfig {
 		vendorAdapter.setShowSql(true);
 		vendorAdapter.setGenerateDdl(false);
 		vendorAdapter.setDatabase(Database.MYSQL);
+		vendorAdapter.setDatabasePlatform("org.hibernate.dialect.MariaDB103Dialect");
+
 		return vendorAdapter;
 	}
 

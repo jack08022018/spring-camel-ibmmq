@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Properties;
 
 @Configuration
 @RequiredArgsConstructor
@@ -58,6 +59,8 @@ public class MariadbConfig {
 		HashMap<String, Object> properties = new HashMap<>();
 		properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
 		properties.put("javax.persistence.transactionType", "JTA");
+		properties.put("hibernate.format_sql", "true");
+//		properties.put("hibernate.enable_lazy_load_no_trans", "true");
 
 		var entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setJtaDataSource(getDataSource());
