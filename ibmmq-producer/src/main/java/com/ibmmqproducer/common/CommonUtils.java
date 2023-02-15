@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Component
-public class FunctionCommonUtils {
+public class CommonUtils {
     @Autowired
     private Environment env;
 

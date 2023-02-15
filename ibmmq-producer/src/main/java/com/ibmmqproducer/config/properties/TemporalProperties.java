@@ -1,4 +1,4 @@
-package com.ibmmqproducer.config;
+package com.ibmmqproducer.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;

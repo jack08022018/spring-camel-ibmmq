@@ -1,4 +1,4 @@
-package com.ibmmqproducer.config;//package com.example.config;
+package com.ibmmqproducer.config.jms;//package com.example.config;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.beans.factory.annotation.Value;

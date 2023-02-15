@@ -31,6 +31,7 @@ dependencies {
 	implementation("io.grpc:grpc-stub:1.35.0")
 	implementation("io.grpc:grpc-netty:1.35.0")
 	implementation("io.grpc:grpc-services:1.35.0")
+	implementation("org.apache.commons:commons-lang3:3.12.0")
 
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

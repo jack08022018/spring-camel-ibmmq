@@ -4,7 +4,8 @@ package com.ibmmqproducer.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibmmqproducer.adapter.SenderService;
-import com.ibmmqproducer.config.TemporalProperties;
+import com.ibmmqproducer.config.properties.TemporalProperties;
+import com.ibmmqproducer.dto.RequestDto;
 import com.ibmmqproducer.dto.User;
 import grpc.TransactionRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class ApiController {
     final ApplicationContext applicationContext;
     final SenderService senderService;
     final TemporalProperties temporalProperties;
+    final ObjectMapper customObjectMapper;
 
     @Value("${queues.queueDev1}")
     private String queueDev1;
@@ -31,12 +33,13 @@ public class ApiController {
     private String queueDev2;
 
     @GetMapping(value = "/modify")
-    public <T> T modify(@RequestBody User dto) throws JsonProcessingException {
+    public <T> T modify(@RequestBody RequestDto<User> req) throws JsonProcessingException {
 //        String[] allBeanNames = applicationContext.getBeanDefinitionNames();
 //        for(String beanName : allBeanNames) {
 //            System.out.println(beanName);
 //        }
-        return (T) new ObjectMapper().writeValueAsString(temporalProperties);
+//        return (T) customObjectMapper.writeValueAsString(req);
+        return (T) req;
     }
 
     @GetMapping(value = "/test")
