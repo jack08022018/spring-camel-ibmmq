@@ -1,42 +1,23 @@
-package com.ibmmqproducer.config;
+package com.orches.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
-
-@EnableAsync
-@EnableJms
+@Slf4j
 @Configuration
-@EnableScheduling
 @RequiredArgsConstructor
 @EnableConfigurationProperties(TemporalProperties.class)
 public class BeanConfig {
 
     final Environment env;
-
-    @Bean(name = "taskExecutor")
-//    @Async("specificTaskExecutor")
-    public Executor threadPoolTaskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(20);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("AsyncThread::");
-        executor.initialize();
-        return executor;
-    }
 
     @Bean(name = "customObjectMapper")
     public ObjectMapper getObjectMapper() {

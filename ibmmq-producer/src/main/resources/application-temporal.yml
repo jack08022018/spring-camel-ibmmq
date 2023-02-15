@@ -1,0 +1,5 @@
+temporal:
+  server: 127.0.0.1:7233
+  timeout: 30
+  worker:
+    maxActivity: 5

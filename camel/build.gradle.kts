@@ -73,6 +73,9 @@ protobuf {
 //	}
 	generateProtoTasks {
 		ofSourceSet("main").forEach {
+//			it.builtins{
+//				java { option "java" }
+//			}
 //			it.generateDescriptorSet = true
 //			it.descriptorSetOptions.includeImports = true
 			it.plugins {

@@ -5,8 +5,21 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../sacom-grpc/orches-service" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../soft/gradle-7.6-all/gradle-7.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../sacom-grpc/orches-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/atomikos" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../soft/gradle-7.6-all/gradle-7.6" />
+        <option name="gradleJvm" value="17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/atomikos" />
@@ -27,6 +40,8 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/camel-multidb" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../soft/gradle-7.6-all/gradle-7.6" />
@@ -70,6 +85,18 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/jpa" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/orches-service" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../soft/gradle-7.6-all/gradle-7.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/orches-service" />
           </set>
         </option>
       </GradleProjectSettings>

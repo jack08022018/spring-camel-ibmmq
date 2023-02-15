@@ -30,6 +30,8 @@ public class DirectRoute extends RouteBuilder {
 	final CityService cityService;
 	final ActorService actorService;
 	final CountryRepository countryRepository;
+
+
 	final ObjectMapper customObjectMapper;
 
 	@Override

@@ -16,6 +16,11 @@
       <module name="camel.aotTest" target="17" />
       <module name="ibmmq-producer.aotMain" target="19" />
       <module name="ibmmq-producer.aotTest" target="19" />
+      <module name="orches-service_main" target="19" />
+      <module name="orches-service_test" target="19" />
+      <module name="sacom-grpc.orches-service" target="17" />
+      <module name="sacom-grpc.orches-service.main" target="17" />
+      <module name="sacom-grpc.orches-service.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
