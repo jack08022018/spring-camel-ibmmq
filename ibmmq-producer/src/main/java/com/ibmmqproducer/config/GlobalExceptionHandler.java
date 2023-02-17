@@ -2,7 +2,6 @@ package com.ibmmqproducer.config;
 
 import com.ibmmqproducer.common.CommonUtils;
 import com.ibmmqproducer.config.exception.ErrorResponse;
-import com.ibmmqproducer.dto.RequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

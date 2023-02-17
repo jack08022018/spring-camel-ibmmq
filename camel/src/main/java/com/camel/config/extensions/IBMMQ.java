@@ -19,16 +19,16 @@ public class IBMMQ extends Connections {
 
     @Override
     protected ConnectionFactory connectionFactory() throws Exception {
-        var connectionFactory = new MQConnectionFactory();
-        connectionFactory.setHostName(host);
-        connectionFactory.setPort(port);
-        connectionFactory.setQueueManager(queueManager);
-        connectionFactory.setChannel(channel);
-        connectionFactory.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
+        var factory = new MQConnectionFactory();
+        factory.setHostName(host);
+        factory.setPort(port);
+        factory.setQueueManager(queueManager);
+        factory.setChannel(channel);
+        factory.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
         var adapter = new UserCredentialsConnectionFactoryAdapter();
         adapter.setUsername(user);
         adapter.setPassword(password);
-        adapter.setTargetConnectionFactory(connectionFactory);
+        adapter.setTargetConnectionFactory(factory);
         var caching = new CachingConnectionFactory();
         caching.setTargetConnectionFactory(adapter);
         caching.setSessionCacheSize(500);

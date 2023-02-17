@@ -17,6 +17,8 @@ camel:
 #    port: 9290
 #  servlet.mapping.context-path: /camel-rest/*
 timer.period: 2000
+camel.component.jms.connection-factory-type: XA
+camel.component.jms.transacted: true
 
 spring:
   application.name: camel

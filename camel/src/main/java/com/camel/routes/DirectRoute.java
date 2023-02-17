@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.util.json.JsonObject;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class DirectRoute extends RouteBuilder {
 	final CityService cityService;
 	final ActorService actorService;
 	final CountryRepository countryRepository;
-
+	final JmsTemplate jmsTemplate;
 
 	final ObjectMapper customObjectMapper;
 
@@ -82,7 +83,16 @@ public class DirectRoute extends RouteBuilder {
 //				.to("ibmmq:queue:DEV.QUEUE.1");
 
 		from("direct:getActor")
-				.bean(apiService, "getActor");
+//				.bean(apiService, "getActor")
+				.process(exchange -> {
+					String body = "ping!";
+					jmsTemplate.convertAndSend("PRINT_NAME", body);
+//					jmsTemplate.convertAndSend("PRINT_NAME", body, messagePostProcessor -> {
+//						messagePostProcessor.setStringProperty(selectorKey, selectorConsumer);
+//						return messagePostProcessor;
+//					});
+				});
+//				.to("ibmmq:queue:DEV.QUEUE.2?selector=ADAPTER='CONSUMER'");
 //				.unmarshal().json(Object.class);
 //				.marshal(jsonDf);
 
