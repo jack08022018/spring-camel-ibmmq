@@ -30,8 +30,8 @@ public class Consumer {
 //        }
     }
 
-//    @JmsListener(destination = "${queues.queueDev1}", selector = "JMSCorrelationID LIKE '%CONSUMER%'")
-    @JmsListener(destination = "${queues.queueDev1}", selector = "ADAPTER = 'CONSUMER'")
+    @JmsListener(destination = "${queues.queueDev1}", selector = "JMSCorrelationID LIKE '%CONSUMER%'")
+//    @JmsListener(destination = "${queues.queueDev1}", selector = "ADAPTER = 'CONSUMER'")
     public void receiveLow(Message message) throws JMSException {
         log.info("\nreceive from DEV.QUEUE.1: "+ message.getPayload());
 //        CUSTOMER-ADAPTER_checkCustomerT24_lmiD

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ConsumerSuccessHandler implements Processor {
-    final JmsTemplate jmsTemplate;
+    final JmsTemplate jmsTemplateIbm;
 
     @Value("${queues.queueDev2}")
     private String queueDev2;
@@ -27,7 +27,7 @@ public class ConsumerSuccessHandler implements Processor {
     public void process(Exchange exchange) throws Exception {
         log.info("ToQueueProcess");
         String body = (String) exchange.getIn().getBody();
-        jmsTemplate.convertAndSend(queueDev2, body, messagePostProcessor -> {
+        jmsTemplateIbm.convertAndSend(queueDev2, body, messagePostProcessor -> {
             messagePostProcessor.setStringProperty(selectorKey, selectorConsumer);
             return messagePostProcessor;
         });

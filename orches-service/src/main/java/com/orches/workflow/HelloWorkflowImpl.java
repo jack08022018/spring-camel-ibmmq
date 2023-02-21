@@ -12,13 +12,7 @@ import java.time.Duration;
 @Slf4j
 public class HelloWorkflowImpl implements HelloWorkflow {
 
-    private final ActivityOptions options = ActivityOptions.newBuilder()
-                    .setStartToCloseTimeout(Duration.ofSeconds(10))
-                    .setTaskQueue(TaskQueue.HELLO.name())
-                    .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
-                    .build();
-
-    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class, options);
+    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class);
 
     @Override
     public void hello() {

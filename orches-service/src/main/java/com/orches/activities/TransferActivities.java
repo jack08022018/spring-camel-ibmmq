@@ -10,4 +10,7 @@ public interface TransferActivities {
 
     @ActivityMethod
     void refund();
+
+    @ActivityMethod
+    String getData();
 }

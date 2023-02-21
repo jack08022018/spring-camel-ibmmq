@@ -99,7 +99,7 @@ public class BeanConfig {
 //        return mq;
 //    }
 
-    @Bean
+//    @Bean
     public ConnectionFactory connectionFactory() throws JMSException {
         var factory = new MQConnectionFactory();
         factory.setHostName("localhost");
@@ -118,33 +118,46 @@ public class BeanConfig {
         return caching;
     }
 
-    @Bean
-    public PlatformTransactionManager transactionManagerIbm() throws JMSException {
-        var transactionManager = new JmsTransactionManager();
-        transactionManager.setConnectionFactory(connectionFactory());
-        return transactionManager;
+//    @Bean
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() throws JMSException {
+        var factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory());
+//        factory.setErrorHandler(sampleJmsErrorHandler);
+        return factory;
     }
 
-    @Bean(name = "txPolicyIbm")
-    public SpringTransactionPolicy txPolicyIbm(
-            final @Qualifier("transactionManagerIbm") PlatformTransactionManager txManager) {
-        var policy = new SpringTransactionPolicy();
-        policy.setTransactionManager(txManager);
-        return policy;
+//    @Bean
+    public JmsTemplate jmsTemplateIbm() throws JMSException {
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory());
+        template.setPubSubDomain(false); // false for a Queue, true for a Topic
+        return template;
     }
 
-    @Bean(name = "ibmmq")
+//    @Bean
+//    public PlatformTransactionManager transactionManagerIbm() throws JMSException {
+//        var transactionManager = new JmsTransactionManager();
+//        transactionManager.setConnectionFactory(connectionFactory());
+//        return transactionManager;
+//    }
+//
+//    @Bean(name = "txPolicyIbm")
+//    public SpringTransactionPolicy txPolicyIbm(
+//            final @Qualifier("transactionManagerIbm") PlatformTransactionManager txManager) {
+//        var policy = new SpringTransactionPolicy();
+//        policy.setTransactionManager(txManager);
+//        return policy;
+//    }
+
+//    @Bean(name = "ibmmq")
     public JmsComponent jmsComponent() throws JMSException {
         var jmsComponent = new JmsComponent();
-        jmsComponent.setTransactionManager(transactionManagerIbm());
+//        jmsComponent.setTransactionManager(transactionManagerIbm());
         jmsComponent.setConnectionFactory(connectionFactory());
         return jmsComponent;
     }
 
-    @Autowired
-    private DataSource dataSource;
-
-//    @Bean
+    @Bean
     CamelContextConfiguration contextConfiguration() {
         return new CamelContextConfiguration() {
             @Override
@@ -160,18 +173,18 @@ public class BeanConfig {
     }
 
     private void addIbmMq(CamelContext context) {
-        var connectionFactory = new MQConnectionFactory();
+        var factory = new MQConnectionFactory();
         try {
-            connectionFactory.setQueueManager("QM1");
-            connectionFactory.setTransportType(1);
-            connectionFactory.setPort(1414);
-            connectionFactory.setHostName("localhost");
-            connectionFactory.setChannel("DEV.ADMIN.SVRCONN");
+            factory.setQueueManager("QM1");
+            factory.setTransportType(1);
+            factory.setPort(1414);
+            factory.setHostName("localhost");
+            factory.setChannel("DEV.ADMIN.SVRCONN");
         } catch (JMSException e) {
             throw new RuntimeException(e);
         }
         var adapter = new UserCredentialsConnectionFactoryAdapter();
-        adapter.setTargetConnectionFactory(connectionFactory);
+        adapter.setTargetConnectionFactory(factory);
         adapter.setUsername("admin");
         adapter.setPassword("passw0rd");
         var caching = new CachingConnectionFactory();
@@ -181,8 +194,11 @@ public class BeanConfig {
 
         var component = JmsComponent.jmsComponentAutoAcknowledge(caching);
 //        JBossJtaTransactionManager transactionManager = new JBossJtaTransactionManager();
-        PlatformTransactionManager ptm = new DataSourceTransactionManager(dataSource);
-        component.setTransactionManager(ptm);
+//        PlatformTransactionManager ptm = new DataSourceTransactionManager(dataSource);
+//        component.setTransactionManager(ptm);
+        var template = new JmsTemplate();
+        template.setConnectionFactory(factory);
+        template.setPubSubDomain(false); // false for a Queue, true for a Topic
         context.addComponent("ibmmq", component);
     }
 

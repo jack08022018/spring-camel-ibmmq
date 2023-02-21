@@ -8,7 +8,7 @@ spring:
   main.allow-bean-definition-overriding: true
   jackson.default-property-inclusion: non_absent
 #  profiles:
-#    include: dev
+#    include: temporal
 #    active: dev
   config:
     activate.on-profile: dev

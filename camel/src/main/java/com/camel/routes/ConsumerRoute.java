@@ -29,6 +29,9 @@ public class ConsumerRoute extends RouteBuilder {
 	@Value("${queues.queueDev1}")
 	private String queueDev1;
 
+	@Value("${queues.queueDev2}")
+	private String queueDev2;
+
 	@Value("${queue.selector.key}")
 	private String selectorKey;
 
@@ -65,11 +68,14 @@ public class ConsumerRoute extends RouteBuilder {
 //				.process(consumerSuccessHandler)
 //				.log("CAMEL: ${body}");
 
-		from("ibmmq:queue:" + queueDev1)
-				.transacted("txPolicyIbm")
-				.filter(header("ADAPTER").isEqualTo("CAMEL"))
+		from("ibmmq:queue:" + queueDev1 + "?selector=JMSCorrelationID LIKE 'CAMEL%'")
+//		from("ibmmq:queue:" + queueDev1 + "?selector=ADAPTER='CAMEL'&transacted=true")
+//				.transacted()
+//				.filter(header("ADAPTER").isEqualTo("CAMEL"))
 //				.filter(header("JMSCorrelationID").contains("CAMEL"))
 //				.filter().method(ibmComsumeFilter, "isCamelAdapter")
+//				.process(consumerSuccessHandler)
+				.to("ibmmq:queue:" + queueDev2)
 				.log("Receive DEV.QUEUE.1: ${body}");
 
 	}

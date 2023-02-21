@@ -62,18 +62,18 @@ public class ApiController {
         String message = "Hello World!";
         jmsTemplate.convertAndSend(queueDev1, message, messagePostProcessor -> {
             String random = RandomStringUtils.random(32);
-//            messagePostProcessor.setJMSCorrelationID(adapter + "_getInfo_" + random);
-            var correlationId = ConsumeFilterDto.builder()
-                    .adapterName(adapter)
-                    .lmid(random)
-                    .build();
+            messagePostProcessor.setJMSCorrelationID(adapter + "_getInfo_" + random);
+//            var correlationId = ConsumeFilterDto.builder()
+//                    .adapterName(adapter)
+//                    .lmid(random)
+//                    .build();
 //            try {
 //                messagePostProcessor.setJMSCorrelationID(customObjectMapper.writeValueAsString(correlationId));
 ////                int a = 1/0;
 //            } catch (JsonProcessingException e) {
 //                throw new RuntimeException(e);
 //            }
-            messagePostProcessor.setStringProperty("ADAPTER", adapter);
+//            messagePostProcessor.setStringProperty("ADAPTER", adapter);
             return messagePostProcessor;
         });
 //            jmsTemplate.convertAndSend(queueDev, "Hello World!");
