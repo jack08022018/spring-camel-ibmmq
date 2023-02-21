@@ -15,7 +15,7 @@ import java.time.Duration;
 public class TransferMoneyWorkflowImpl implements TransferMoneyWorkflow {
 
     private final ActivityOptions options = ActivityOptions.newBuilder()
-                    .setStartToCloseTimeout(Duration.ofSeconds(10))
+                    .setStartToCloseTimeout(Duration.ofSeconds(20))
                     .setTaskQueue(TaskQueue.TRANSFER_MONEY.name())
                     .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
                     .build();
@@ -27,9 +27,9 @@ public class TransferMoneyWorkflowImpl implements TransferMoneyWorkflow {
 //        log.info("Transfer money start: {}", Workflow.getInfo().getWorkflowId());
         log.info("Transfer money start:");
         transferActivities.deduct();
-        Promise<String> promise = Async.function(() -> transferActivities.getData());
-        String info = promise.get();
-        System.out.println("xxx: " + info);
+//        Promise<String> promise = Async.function(() -> transferActivities.getData());
+//        String info = promise.get();
+        System.out.println("xxx: " + transferActivities.getData());
         transferActivities.refund();
     }
 }

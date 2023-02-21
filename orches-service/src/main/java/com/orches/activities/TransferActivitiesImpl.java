@@ -40,8 +40,8 @@ public class TransferActivitiesImpl implements TransferActivities {
         ActivityExecutionContext context = Activity.getExecutionContext();
         byte[] taskToken = context.getTaskToken();
         context.doNotCompleteOnReturn();
-        System.out.println("ActivityId: " + context.getInfo().getActivityId());
-        System.out.println("WorkflowId: " + context.getInfo().getWorkflowId());
+        System.out.println("WorkflowId: \n" + context.getInfo().getWorkflowId());
+        System.out.println("ActivityId: \n" + context.getInfo().getActivityId());
 //        var dto = CompletionDto.builder()
 //                .activityId(context.getInfo().getActivityId())
 //                .workflowId(context.getInfo().getWorkflowId())
