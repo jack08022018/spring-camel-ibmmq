@@ -1,6 +1,8 @@
 package com.orches.worker;
 
+import com.orches.activities.GetInfoActivities;
 import com.orches.activities.GetInfoActivitiesImpl;
+import com.orches.activities.TransferActivities;
 import com.orches.activities.TransferActivitiesImpl;
 import com.orches.adapter.TransferAdapter;
 import com.orches.enumerator.TaskQueue;
@@ -34,7 +36,9 @@ public class TransferMoneyWorker {
 
         var completionClient = workflowClient.newActivityCompletionClient();
         worker.registerWorkflowImplementationTypes(defaultWorkflowImplementationOptions, TransferMoneyWorkflowImpl.class);
-        worker.registerActivitiesImplementations(new TransferActivitiesImpl(transferAdapter, completionClient), new GetInfoActivitiesImpl(transferAdapter));
+        worker.registerActivitiesImplementations(
+                new TransferActivitiesImpl(transferAdapter, completionClient),
+                new GetInfoActivitiesImpl(transferAdapter));
         workerFactory.start();
         log.info("Registering Transfer Money Worker..");
     }

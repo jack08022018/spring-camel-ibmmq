@@ -1,6 +1,7 @@
 package com.orches.workflow;
 
 import com.orches.activities.TransferActivities;
+import com.orches.config.exceptions.NotRetryException;
 import com.orches.enumerator.TaskQueue;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
@@ -12,12 +13,24 @@ import java.time.Duration;
 @Slf4j
 public class HelloWorkflowImpl implements HelloWorkflow {
 
-    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class);
+    ActivityOptions activityOptions = ActivityOptions.newBuilder()
+            .setStartToCloseTimeout(Duration.ofSeconds(5))
+            .setRetryOptions(RetryOptions.newBuilder()
+                    .setMaximumAttempts(3)
+                    .setDoNotRetry("com.orches.config.exceptions.NotRetryException")
+                    .build())
+            .build();
+
+    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class, activityOptions);
 
     @Override
-    public void hello() {
+    public void hello() throws NotRetryException {
         log.info("hello:");
         transferActivities.deduct();
-        transferActivities.refund();
+        try {
+            transferActivities.refund();
+        }catch (Exception e) {
+            log.error("xxx: " + e.getMessage());
+        }
     }
 }

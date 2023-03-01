@@ -1,11 +1,14 @@
 package com.orches.activities;
 
 import com.orches.adapter.TransferAdapter;
+import com.orches.config.exceptions.NotRetryException;
 import com.orches.dto.CompletionDto;
 import io.temporal.activity.Activity;
 import io.temporal.activity.ActivityExecutionContext;
 import io.temporal.client.ActivityCompletionClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ForkJoinPool;
@@ -31,14 +34,19 @@ public class TransferActivitiesImpl implements TransferActivities {
     }
 
     @Override
-    public void refund() {
+    public void refund() throws NotRetryException {
         transferAdapter.refund();
+        try {
+            int a = 1/0;
+        }catch (Exception e) {
+            throw new NotRetryException(e.getMessage());
+        }
     }
 
     @Override
     public String getData() {
         ActivityExecutionContext context = Activity.getExecutionContext();
-        byte[] taskToken = context.getTaskToken();
+//        byte[] taskToken = context.getTaskToken();
         context.doNotCompleteOnReturn();
         System.out.println("WorkflowId: \n" + context.getInfo().getWorkflowId());
         System.out.println("ActivityId: \n" + context.getInfo().getActivityId());

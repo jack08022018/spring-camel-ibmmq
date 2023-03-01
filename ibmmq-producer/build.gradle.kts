@@ -6,6 +6,7 @@ plugins {
 	id("org.springframework.boot") version "2.7.7"
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
 	id("com.google.protobuf") version "0.9.1"
+	id("maven-publish")
 }
 
 group = "com"

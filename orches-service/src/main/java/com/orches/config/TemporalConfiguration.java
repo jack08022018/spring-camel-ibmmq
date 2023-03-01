@@ -2,6 +2,7 @@ package com.orches.config;
 
 import com.orches.activities.TransferActivities;
 import com.orches.activities.TransferActivitiesImpl;
+import com.orches.config.exceptions.NotRetryException;
 import com.orches.worker.*;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.activity.LocalActivityOptions;
@@ -67,6 +68,7 @@ public class TemporalConfiguration {
         var defaultActivityOptions = ActivityOptions.newBuilder()
                 .setStartToCloseTimeout(Duration.ofSeconds(15))
                 .setRetryOptions(RetryOptions.newBuilder()
+                        .setDoNotRetry("com.orches.config.exceptions.NotRetryException")
                         .setMaximumAttempts(50)
                         .build())
                 .build();
@@ -81,7 +83,7 @@ public class TemporalConfiguration {
                         .build())
                 .build();
         return WorkflowImplementationOptions.newBuilder()
-                .setFailWorkflowExceptionTypes(NullPointerException.class)
+                .setFailWorkflowExceptionTypes(NotRetryException.class)
 //                .setActivityOptions()
                 .setDefaultActivityOptions(defaultActivityOptions)
                 .setDefaultLocalActivityOptions(defaultLocalActivityOptions)

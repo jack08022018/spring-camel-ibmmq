@@ -1,5 +1,6 @@
 package com.orches.activities;
 
+import com.orches.config.exceptions.NotRetryException;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
@@ -9,7 +10,7 @@ public interface TransferActivities {
     void deduct();
 
     @ActivityMethod
-    void refund();
+    void refund() throws NotRetryException;
 
     @ActivityMethod
     String getData();

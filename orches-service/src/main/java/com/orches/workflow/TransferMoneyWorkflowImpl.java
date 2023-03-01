@@ -1,6 +1,7 @@
 package com.orches.workflow;
 
 import com.orches.activities.TransferActivities;
+import com.orches.config.exceptions.NotRetryException;
 import com.orches.enumerator.TaskQueue;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
@@ -14,22 +15,17 @@ import java.time.Duration;
 @Slf4j
 public class TransferMoneyWorkflowImpl implements TransferMoneyWorkflow {
 
-    private final ActivityOptions options = ActivityOptions.newBuilder()
-                    .setStartToCloseTimeout(Duration.ofSeconds(20))
-                    .setTaskQueue(TaskQueue.TRANSFER_MONEY.name())
-                    .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
-                    .build();
-
-    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class, options);
+    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class);
 
     @Override
-    public void transferMoney() {
+    public void transferMoney() throws NotRetryException {
 //        log.info("Transfer money start: {}", Workflow.getInfo().getWorkflowId());
         log.info("Transfer money start:");
         transferActivities.deduct();
 //        Promise<String> promise = Async.function(() -> transferActivities.getData());
 //        String info = promise.get();
-        System.out.println("xxx: " + transferActivities.getData());
+        String data = transferActivities.getData();
+        System.out.println("aaa: " + data);
         transferActivities.refund();
     }
 }

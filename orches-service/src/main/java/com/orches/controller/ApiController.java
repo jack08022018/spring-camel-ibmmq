@@ -54,9 +54,10 @@ public class ApiController {
                 WorkflowOptions.newBuilder()
 //                        .setWorkflowId("TransferMoneyWorkflow-" + random)
                         .setTaskQueue(TaskQueue.HELLO.name())
-                        .setWorkflowExecutionTimeout(Duration.ofMillis(60000))
-                        .setWorkflowTaskTimeout(Duration.ofMillis(1000))
+                        .setWorkflowExecutionTimeout(Duration.ofSeconds(10))
+                        .setWorkflowTaskTimeout(Duration.ofSeconds(10))
                         .setRetryOptions(RetryOptions.newBuilder()
+                                .setDoNotRetry("com.orches.config.exceptions.NotRetryException")
                                 .setMaximumAttempts(1)
                                 .build())
                         .build());
