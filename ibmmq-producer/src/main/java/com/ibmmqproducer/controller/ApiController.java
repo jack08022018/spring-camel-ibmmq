@@ -17,6 +17,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/api")
@@ -41,7 +43,13 @@ public class ApiController {
 //            System.out.println(beanName);
 //        }
 //        return (T) customObjectMapper.writeValueAsString(req);
-        return (T) req;
+        var data = """
+                <EBk>
+                <BODY>aa</BODY>
+                </EBk>
+                """;
+
+        return (T) data.lines().collect(Collectors.joining(""));
     }
 
     @GetMapping(value = "/test")
