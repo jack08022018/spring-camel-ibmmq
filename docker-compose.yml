@@ -21,6 +21,22 @@ services:
     ports:
       - '6379:6379'
 
+  activemq:
+    image: 'rmohr/activemq'
+    ports:
+      - '61616:61616'
+      - '8161:8161'
+    container_name: activemq
+
+  mongoDb:
+    image: 'mongo:latest'
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    container_name: mongoDb
+
 #  mssql:
 #    image: mcr.microsoft.com/mssql/server:latest
 #    container_name: mssql
