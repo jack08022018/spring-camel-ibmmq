@@ -7,10 +7,12 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/camel.main.iml" filepath="$PROJECT_DIR$/.idea/modules/camel.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ibmmq-consumer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ibmmq-consumer.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ibmmq-producer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ibmmq-producer.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jackson.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jackson.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jpa.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jpa.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/orches-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/orches-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-camel-ibmmq.iml" filepath="$PROJECT_DIR$/spring-camel-ibmmq.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/validation.main.iml" filepath="$PROJECT_DIR$/.idea/modules/validation.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/webflux.main.iml" filepath="$PROJECT_DIR$/.idea/modules/webflux.main.iml" />
     </modules>
   </component>
 </project>
