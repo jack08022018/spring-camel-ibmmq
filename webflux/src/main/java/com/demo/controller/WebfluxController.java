@@ -55,7 +55,7 @@ public class WebfluxController {
             .build();
 
     @GetMapping("/webClient")
-    public Mono<String> webClient(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
+    public String webClient(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
         webClient.post()
                 .uri("/api/test")
                 .bodyValue(dto.getData())
@@ -72,6 +72,7 @@ public class WebfluxController {
                 .subscribe(s -> {
                     System.out.println(LocalDateTime.now() + " RESPONSE2: " + s.getAddress());
                 });
+        return "second";
 //        var response1 = webClient.post()
 //                .uri("/api/test")
 //                .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +91,6 @@ public class WebfluxController {
 //                .retrieve()
 //                .bodyToMono(UserData.class)
 //                .block()
-        ;
 //        response1.subscribe(s -> {
 //            System.out.println(LocalDateTime.now() + " RESPONSE1: " + s.getAddress());
 //        });
@@ -99,9 +99,7 @@ public class WebfluxController {
 //        });
 //        ModelMap result = new ModelMap();
 //        result.put("response1", response1);
-        System.out.println("bbb");
 //        TimeUnit.SECONDS.sleep(4);
-        return Mono.empty();
 //        return ResponseDto.builder()
 //                .requestId(dto.getRequestId())
 //                .status("00")
@@ -113,7 +111,7 @@ public class WebfluxController {
     }
 
     @GetMapping("/webClient2")
-    public Mono<ResponseEntity<UserData>> webClient2(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
+    public Mono<UserData> webClient2(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
         Mono<UserData> first = webClient.post()
                 .uri("/api/test")
                 .bodyValue(dto.getData())
@@ -123,24 +121,21 @@ public class WebfluxController {
         Mono<UserData> second = first.flatMap(s -> {
             // Process first response here
             dto.getData().setName("Nhung");
+            int a = 1/0;
             return webClient.post()
                     .uri("/api/test")
                     .bodyValue(dto.getData())
                     .retrieve()
                     .bodyToMono(UserData.class);
         });
+        second.subscribe();
 
-        second.subscribe(secondResponse -> {
-            // Process second response here
-        });
-
-        return second.map(s -> {
-            // Create the response to send back to the client
-            return ResponseEntity.ok().body(s);
-        }).onErrorResume(ex -> {
-            // Handle errors here
-            return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-        });
+        return second
+                .map(s -> s)
+                .onErrorResume(ex -> {
+                    throw new RuntimeException(ex);
+                });
+//                .onErrorResume(ex -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
 
 //        webClient.post()
 //                .uri("/api/test")
