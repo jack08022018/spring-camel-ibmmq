@@ -1,9 +1,18 @@
 package com.demo.dto;
 
-import lombok.experimental.Accessors;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-@Accessors(fluent = true, chain = true)
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequestDto<T> {
-    public String requestId;
-    public T body;
+    @JsonIgnore
+    private String lmid;
+
+    private String requestId;
+    private String requestDateTime;
+    private T data;
 }

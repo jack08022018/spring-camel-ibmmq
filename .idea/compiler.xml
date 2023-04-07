@@ -8,12 +8,17 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.7.7/483f6acb3b0aff6c3d3dc99e8b8f390fa893d0a2/spring-boot-configuration-processor-2.7.7.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="webflux.main" />
+        <module name="ibmmq-producer.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="camel.aotMain" target="17" />
       <module name="camel.aotTest" target="17" />
+      <module name="extjs" target="19" />
+      <module name="extjs.aotMain" target="19" />
+      <module name="extjs.aotTest" target="19" />
+      <module name="extjs.main" target="19" />
+      <module name="extjs.test" target="19" />
       <module name="ibmmq-producer.aotMain" target="19" />
       <module name="ibmmq-producer.aotTest" target="19" />
       <module name="orches-service_main" target="19" />

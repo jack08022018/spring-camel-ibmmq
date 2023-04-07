@@ -1,6 +1,9 @@
 package com.demo.controller;
 
 
+import com.demo.dto.RequestDto;
+import com.demo.dto.UserData;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.demo.adapter.SenderService;
 import com.demo.config.properties.TemporalProperties;
@@ -10,15 +13,21 @@ import io.netty.channel.epoll.EpollChannelOption;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 //@RestController
@@ -57,6 +66,24 @@ public class ApiController {
 //
 //        return (T) data.lines().collect(Collectors.joining(""));
 //    }
+
+    @GetMapping("/webClient")
+    public <T> T webClient(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
+        RestTemplate restTemplate = new RestTemplate();
+//        Map<String, String> map = new HashMap<>();
+//        map.put("profile", "Developer");
+//        map.put("tech", "Java");
+
+        String url = "http://localhost:9199/ibmmq-consumer/api/test";
+        UserData response1 = restTemplate.getForObject(url, UserData.class, dto.getData());
+        System.out.println(LocalDateTime.now() + " RESPONSE1: " + response1.getAddress());
+
+//        response2.subscribe(s -> {
+//            System.out.println(LocalDateTime.now() + " response2: " + s.getAddress());
+//        });
+        System.out.println("bbb");
+        return (T) response1;
+    }
 
     @GetMapping(value = "/test")
     public <T> T test() {
@@ -99,32 +126,6 @@ public class ApiController {
         return (T) response;
     }
 
-    public static void main(String[] args) {
-        System.out.println((1680754961802L - 1680754958431L) + "");
-    }
-//    @GetMapping("send")
-//    String send(@RequestParam String adapter) {
-//        String message = "Hello World!";
-//        jmsTemplate.convertAndSend(queueDev1, message, messagePostProcessor -> {
-//            String random = RandomStringUtils.random(32);
-//            messagePostProcessor.setJMSCorrelationID(adapter + "_getInfo_" + random);
-////            var correlationId = ConsumeFilterDto.builder()
-////                    .adapterName(adapter)
-////                    .lmid(random)
-////                    .build();
-////            try {
-////                messagePostProcessor.setJMSCorrelationID(customObjectMapper.writeValueAsString(correlationId));
-//////                int a = 1/0;
-////            } catch (JsonProcessingException e) {
-////                throw new RuntimeException(e);
-////            }
-////            messagePostProcessor.setStringProperty("ADAPTER", adapter);
-//            return messagePostProcessor;
-//        });
-////            jmsTemplate.convertAndSend(queueDev, "Hello World!");
-//        return "OK";
-//    }
-//
 //    @GetMapping("send2")
 //    String send2(@RequestParam String adapter) {
 //        String message = "Hello World!";

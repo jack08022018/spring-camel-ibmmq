@@ -10,13 +10,14 @@ import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
 @RequestMapping(value = "/api")
 @RequiredArgsConstructor
-public class ApiController {
+public class ConsumerController {
     final JmsTemplate jmsTemplate;
 
     @Value("${queues.queueDev1}")
@@ -34,6 +35,8 @@ public class ApiController {
 
     @PostMapping("/test")
     public <T> T test(@RequestBody UserDto dto) throws InterruptedException {
+        System.out.println(LocalDateTime.now() + " START");
+        TimeUnit.SECONDS.sleep(3);
         return (T) UserData.builder()
                 .name(dto.getName())
                 .address("HCM")

@@ -2,7 +2,7 @@ package com.demo.controller;
 
 
 import com.demo.dto.UserDto;
-import com.demo.retry.ServiceException;
+import com.google.protobuf.ServiceException;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.epoll.EpollChannelOption;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +33,8 @@ public class ConsumeController {
                 .build();
 
         HttpClient httpClient = HttpClient.create()
-                .responseTimeout(Duration.ofSeconds(2))
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2000)
+                .responseTimeout(Duration.ofSeconds(10))
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(EpollChannelOption.TCP_KEEPIDLE, 300)
                 .option(EpollChannelOption.TCP_KEEPINTVL, 60)
@@ -52,15 +52,15 @@ public class ConsumeController {
                     .uri("/api/test")
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError, response -> {
-                        return Mono.error(new ServiceException("Server error", response.rawStatusCode()));
-                    })
-                    .bodyToMono(UserDto.class)
-                    .retryWhen(Retry.backoff(3, Duration.ofSeconds(2))
-                            .filter(throwable -> throwable instanceof ServiceException)
-                            .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> {
-                                throw new ServiceException("External Service failed to process after max retries", HttpStatus.SERVICE_UNAVAILABLE.value());
-                            }));
+//                    .onStatus(HttpStatus::is5xxServerError, response -> {
+//                        return Mono.error(new ServiceException("Server error", response.rawStatusCode()));
+//                    })
+                    .bodyToMono(UserDto.class);
+//                    .retryWhen(Retry.backoff(3, Duration.ofSeconds(2))
+//                            .filter(throwable -> throwable instanceof ServiceException)
+//                            .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> {
+//                                throw new ServiceException("External Service failed to process after max retries", HttpStatus.SERVICE_UNAVAILABLE.value());
+//                            }));
 //                    .subscribe();
 
 //            result = webClient.post()

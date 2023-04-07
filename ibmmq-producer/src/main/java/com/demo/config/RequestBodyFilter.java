@@ -31,7 +31,7 @@ public class RequestBodyFilter implements Filter {
         var body = StreamUtils.copyToString(request.getInputStream(), Charset.forName("UTF-8"));
         try {
             var requestDto = customObjectMapper.readValue(body, RequestDto.class);
-            requestDto.requestId = requestId;
+            requestDto.setRequestId(requestId);
             body = customObjectMapper.writeValueAsString(requestDto);
         }catch (Exception e) {
             log.error("\nREQUEST_ID={} RequestBodyFilter msg={}", requestId, e.getMessage());
