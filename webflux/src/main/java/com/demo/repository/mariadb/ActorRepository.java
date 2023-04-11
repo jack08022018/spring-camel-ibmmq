@@ -1,6 +1,6 @@
-package com.demo.repository;
+package com.demo.repository.mariadb;
 
-import com.demo.entity.ActorEntity;
+import com.demo.repository.mariadb.entity.ActorEntity;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 

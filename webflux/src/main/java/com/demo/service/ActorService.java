@@ -1,8 +1,9 @@
 package com.demo.service;
 
-import com.demo.entity.ActorEntity;
+import com.demo.repository.mariadb.entity.ActorEntity;
+import org.springframework.ui.ModelMap;
 import reactor.core.publisher.Mono;
 
 public interface ActorService {
-    Mono<ActorEntity> getActor();
+    Mono getActor();
 }

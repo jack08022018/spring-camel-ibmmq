@@ -5,13 +5,12 @@ import com.demo.dto.RequestDto;
 import com.demo.dto.ResponseDto;
 import com.demo.dto.UserData;
 import com.demo.dto.UserDto;
-import com.demo.entity.ActorEntity;
+import com.demo.repository.mariadb.entity.ActorEntity;
 import com.demo.service.ActorService;
 import com.demo.service.ApiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.epoll.EpollChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
@@ -177,7 +175,7 @@ public class WebfluxController {
     }
 
     @GetMapping("/getData")
-    public Mono<ActorEntity> getData() {
+    public Mono<Object> getData() {
         return actorService.getActor();
     }
 
