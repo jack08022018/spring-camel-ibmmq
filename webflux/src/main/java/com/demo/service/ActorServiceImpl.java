@@ -15,8 +15,19 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Mono<ActorEntity> getActor() {
-        var actor = actorRepository.findById(1);
-        actor.subscribe();
-        return actorRepository.findById(1);
+        return actorRepository.findById(1)
+//                .doOnSuccess(s -> {
+//                    return s;
+//                })
+                .doOnError(s -> {
+                    try {
+                        throw s;
+                    } catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+//                    s.getMessage();
+                });
+//        actor.subscribe();
+//        return actorRepository.findById(1);
     }
 }

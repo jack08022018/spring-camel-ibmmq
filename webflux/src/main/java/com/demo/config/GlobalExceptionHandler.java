@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleBookAPIException(Exception e){
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("error message", e.getMessage());
-        errorMap.put("status", HttpStatus.BAD_REQUEST.toString());
+        errorMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR.toString());
         return ResponseEntity.ok(errorMap);
     }
 

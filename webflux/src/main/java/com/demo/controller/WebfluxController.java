@@ -8,17 +8,19 @@ import com.demo.dto.UserDto;
 import com.demo.entity.ActorEntity;
 import com.demo.service.ActorService;
 import com.demo.service.ApiService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.epoll.EpollChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,7 @@ import java.time.LocalDateTime;
 public class WebfluxController {
     final ApiService apiService;
     final Gson gson;
+    final ObjectMapper customObjectMapper;
     final ActorService actorService;
 //    final WebClient webClient;
 
@@ -45,17 +48,68 @@ public class WebfluxController {
             .responseTimeout(Duration.ofSeconds(10))
             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
             .option(ChannelOption.SO_KEEPALIVE, true)
-            .option(EpollChannelOption.TCP_KEEPIDLE, 300)
-            .option(EpollChannelOption.TCP_KEEPINTVL, 60)
-            .option(EpollChannelOption.TCP_KEEPCNT, 8);
+            .tcpConfiguration(client -> client
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
+                    .doOnConnected(conn -> conn
+                            .addHandlerLast(new ReadTimeoutHandler(30))
+                            .addHandlerLast(new WriteTimeoutHandler(30)))
+            );
     WebClient webClient = WebClient.builder()
             .clientConnector(new ReactorClientHttpConnector(httpClient))
             .baseUrl("http://localhost:9199/ibmmq-consumer")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
-    @GetMapping("/webClient")
-    public String webClient(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
+    @GetMapping("/zipCombine")
+    public Mono<ModelMap> zipCombine(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
+        Mono<UserData> response1 = webClient.post()
+                .uri("/api/test")
+                .bodyValue(dto.getData())
+                .retrieve()
+                .bodyToMono(UserData.class);
+        var dto2 = customObjectMapper.convertValue(dto.getData(), UserDto.class);
+        dto2.setName("Nhung");
+        Mono<UserData> response2 = webClient.post()
+                .uri("/api/test")
+                .bodyValue(dto2)
+                .retrieve()
+                .bodyToMono(UserData.class);
+
+        return Mono.zip(response1, response2)
+                .map(tuple -> {
+                    ModelMap result = new ModelMap();
+                    result.put("result1", tuple.getT1());
+                    result.put("result2", tuple.getT2());
+                    return result;
+                });
+    }
+
+    @GetMapping("/waiting")
+    public Mono<ModelMap> waiting(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
+        Mono<UserData> response1 = webClient.post()
+                .uri("/api/test")
+                .bodyValue(dto.getData())
+                .retrieve()
+                .bodyToMono(UserData.class);
+
+        return response1.flatMap(result1 -> {
+            dto.getData().setName("King");
+            Mono<UserData> response2 = webClient.post()
+                    .uri("/api/test")
+                    .bodyValue(dto.getData())
+                    .retrieve()
+                    .bodyToMono(UserData.class);
+            return response2.map(result2 -> {
+                ModelMap result = new ModelMap();
+                result.put("result1", result1);
+                result.put("result2", result2);
+                return result;
+            });
+        });
+    }
+
+    @GetMapping("/flatMap")
+    public String flatMap(@RequestBody RequestDto<UserDto> dto) throws InterruptedException {
         webClient.post()
                 .uri("/api/test")
                 .bodyValue(dto.getData())
@@ -73,41 +127,6 @@ public class WebfluxController {
                     System.out.println(LocalDateTime.now() + " RESPONSE2: " + s.getAddress());
                 });
         return "second";
-//        var response1 = webClient.post()
-//                .uri("/api/test")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .bodyValue(dto.getData())
-////                .retrieve()
-////                .bodyToMono(UserData.class)
-////                .subscribeOn(Schedulers.boundedElastic())
-//                .exchangeToMono(s -> s.bodyToMono(UserDto.class))
-//                .block()
-//                ;
-//        dto.getData().setName("Nhung");
-//        Mono<UserData> response2 = webClient.post()
-//                .uri("/api/test")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .bodyValue(dto.getData())
-//                .retrieve()
-//                .bodyToMono(UserData.class)
-//                .block()
-//        response1.subscribe(s -> {
-//            System.out.println(LocalDateTime.now() + " RESPONSE1: " + s.getAddress());
-//        });
-//        response2.subscribe(s -> {
-//            System.out.println(LocalDateTime.now() + " response2: " + s.getAddress());
-//        });
-//        ModelMap result = new ModelMap();
-//        result.put("response1", response1);
-//        TimeUnit.SECONDS.sleep(4);
-//        return ResponseDto.builder()
-//                .requestId(dto.getRequestId())
-//                .status("00")
-//                .data(response)
-//                .build();
-
-//        ExcuteApi<RequestDto, UserData> excuteApi = apiService::getInfo;
-//        return handle(excuteApi, dto);
     }
 
     @GetMapping("/webClient2")
@@ -119,7 +138,6 @@ public class WebfluxController {
                 .bodyToMono(UserData.class);
 
         Mono<UserData> second = first.flatMap(s -> {
-            // Process first response here
             dto.getData().setName("Nhung");
             int a = 1/0;
             return webClient.post()
@@ -135,25 +153,6 @@ public class WebfluxController {
                 .onErrorResume(ex -> {
                     throw new RuntimeException(ex);
                 });
-//                .onErrorResume(ex -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()));
-
-//        webClient.post()
-//                .uri("/api/test")
-//                .bodyValue(dto.getData())
-//                .retrieve()
-//                .bodyToMono(UserData.class)
-//                .flatMap(s -> {
-//                    System.out.println(LocalDateTime.now() + " RESPONSE1: " + s.getAddress());
-//                    return webClient.post()
-//                            .uri("/api/test")
-//                            .bodyValue(dto.getData())
-//                            .retrieve()
-//                            .bodyToMono(UserData.class);
-//                })
-//                .subscribe(s -> {
-//                    System.out.println(LocalDateTime.now() + " RESPONSE2: " + s.getAddress());
-//                });
-//        return Mono.empty();
     }
 
     public ResponseDto handle(ExcuteApi excute, RequestDto dto) {
@@ -177,90 +176,9 @@ public class WebfluxController {
         }
     }
 
-    @GetMapping("/demo")
-    public <T> T demo() {
-//        Flux<Integer> ints = Flux.range(1, 6) //(1)
-//                .map(i -> { // (2)
-//                    if (i <= 3) {
-//                        return i;
-//                    }
-//                    throw new RuntimeException("Got to 4");
-//                });
-//        ints.subscribe(i -> System.out.println(i), //(3)
-//                error -> System.err.println("Error: " + error)); //(4)
-
-//        public void onSubscribe(Subscription s);
-//        public void onNext(T t);
-//        public void onError(Throwable t);
-//        public void onComplete();
-        Flux<Integer> ints = Flux.range(1, 4);
-        ints.subscribe(
-                        i -> System.out.println(i),
-                        error -> System.err.println("Error " + error),
-                        () -> System.out.println("Done"),
-                        sub -> sub.request(10)
-                );
-//            .dispose();
-//        Flux<Integer> ints = Flux.range(1, 4)
-//                .map(i -> {
-//                    return i;
-////                    if (i <= 3) {
-////                        return i;
-////                    }
-////                    throw new RuntimeException("Got to 4");
-//                });
-//        ints.subscribe(i -> System.out.println(i),
-//                error -> System.err.println("Error: " + error),
-//                () -> System.out.println("Done"),
-//                sub -> sub.request(10));
-//        System.out.println("bbb");
-        return (T) "ints";
-    }
-
     @GetMapping("/getData")
     public Mono<ActorEntity> getData() {
         return actorService.getActor();
     }
-
-//    @GetMapping(value = "/test")
-//    public <T> T test() {
-//        var start = System.currentTimeMillis();
-//        var dto = UserDto.builder()
-//                .id("123")
-//                .build();
-//
-//        HttpClient httpClient = HttpClient.create()
-//                .responseTimeout(Duration.ofSeconds(2))
-//                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2000)
-//                .option(ChannelOption.SO_KEEPALIVE, true)
-//                .option(EpollChannelOption.TCP_KEEPIDLE, 300)
-//                .option(EpollChannelOption.TCP_KEEPINTVL, 60)
-//                .option(EpollChannelOption.TCP_KEEPCNT, 8);
-//        WebClient webClient = WebClient.builder()
-//                .clientConnector(new ReactorClientHttpConnector(httpClient))
-//                .baseUrl("http://localhost:9199/ibmmq-consumeraaa")
-//                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-//                .build();
-//
-//        UserDto response = null;
-//        try {
-//            response = webClient.post()
-//                    .uri("/api/test")
-//                    .contentType(MediaType.APPLICATION_JSON)
-////                    .bodyValue(dto)
-//                    .exchangeToMono(s -> s.bodyToMono(UserDto.class))
-//                    .block();
-//        }catch (Exception e) {
-//            System.out.println("exception:" + e.getMessage());
-//            e.printStackTrace();
-//            var end = System.currentTimeMillis();
-//            System.out.println("aaa: " + (end - start));
-//            return (T) e.getMessage();
-//        }
-//
-//        var end = System.currentTimeMillis();
-//        System.out.println("aaa: " + (end - start));
-//        return (T) response;
-//    }
 
 }
