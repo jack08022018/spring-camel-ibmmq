@@ -22,7 +22,7 @@ import reactor.util.retry.Retry;
 import java.time.Duration;
 
 @Slf4j
-@RestController
+//@RestController
 @RequestMapping(value = "/api")
 @RequiredArgsConstructor
 public class ConsumeController {

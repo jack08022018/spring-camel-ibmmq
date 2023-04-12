@@ -33,6 +33,18 @@ mymsdb.datasource.url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerC
 mymsdb.datasource.username: sa
 mymsdb.datasource.password: A!123456
 
+datasource:
+  mssql:
+    url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=sakila
+    username: sa
+    password: A!123456
+    dialect: org.hibernate.dialect.SQLServer2012Dialect
+  mariadb:
+    url: jdbc:mariadb://localhost:3308/sakila
+    username: root
+    password: 123456
+    dialect: org.hibernate.dialect.MariaDB103Dialect
+
 logging:
   level:
     root: INFO

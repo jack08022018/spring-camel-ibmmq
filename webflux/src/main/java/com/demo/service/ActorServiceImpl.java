@@ -1,9 +1,7 @@
 package com.demo.service;
 
-import com.demo.dto.UserData;
-import com.demo.dto.UserDto;
-import com.demo.repository.mariadb.entity.ActorEntity;
 import com.demo.repository.mariadb.ActorRepository;
+import com.demo.repository.mariadb.entity.ActorEntity;
 import com.demo.repository.mssql.RentalNewRepository;
 import com.demo.repository.mssql.entity.RentalNewEntity;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +19,18 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Mono getActor() {
-        return actorRepository.findById(1);
-//        Mono<ActorEntity> response1 = actorRepository.findById(1);
-//        return rentalNewRepository.findById(152);
-//        Mono<RentalNewEntity> response2 = rentalNewRepository.findById(152);
 //        return actorRepository.findById(1);
-//        return Mono.zip(response1, response2)
-//                .map(tuple -> {
-//                    ModelMap result = new ModelMap();
-//                    result.put("result1", tuple.getT1());
-//                    result.put("result2", tuple.getT2());
-//                    return result;
-//                });
+        Mono<ActorEntity> response1 = actorRepository.findById(1);
+//        return rentalNewRepository.findById(152);
+        Mono<RentalNewEntity> response2 = rentalNewRepository.findById(152);
+//        return actorRepository.findById(1);
+        return Mono.zip(response1, response2)
+                .map(tuple -> {
+                    ModelMap result = new ModelMap();
+                    result.put("result1", tuple.getT1());
+                    result.put("result2", tuple.getT2());
+                    return result;
+                });
 
 //        return actorRepository.findById(1)
 //                .doOnSuccess(s -> {

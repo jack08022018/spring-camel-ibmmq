@@ -23,8 +23,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
 	implementation("org.mariadb:r2dbc-mariadb:1.1.3")
-//	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-
 	implementation("io.r2dbc:r2dbc-mssql:1.0.0.RELEASE")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 

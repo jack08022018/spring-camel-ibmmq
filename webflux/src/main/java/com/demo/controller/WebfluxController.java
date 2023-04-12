@@ -5,7 +5,6 @@ import com.demo.dto.RequestDto;
 import com.demo.dto.ResponseDto;
 import com.demo.dto.UserData;
 import com.demo.dto.UserDto;
-import com.demo.repository.mariadb.entity.ActorEntity;
 import com.demo.service.ActorService;
 import com.demo.service.ApiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,7 +65,7 @@ public class WebfluxController {
                 .retrieve()
                 .bodyToMono(UserData.class);
         var dto2 = customObjectMapper.convertValue(dto.getData(), UserDto.class);
-        dto2.setName("Nhung");
+        dto2.setName("King");
         Mono<UserData> response2 = webClient.post()
                 .uri("/api/test")
                 .bodyValue(dto2)

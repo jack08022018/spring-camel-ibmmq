@@ -1,9 +1,6 @@
 package com.demo.repository.mssql.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +10,6 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @Builder
@@ -22,33 +18,40 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "rental_new")
 public class RentalNewEntity implements Serializable {
+//    @JsonIgnore
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_seq")
-    @SequenceGenerator(name = "rental_seq", sequenceName = "rental_seq", allocationSize = 50)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_seq")
+//    @SequenceGenerator(name="rental_seq", sequenceName="rental_seq", allocationSize = 50)
     @Column("rental_id")
     private Integer rentalId;
 
-    @Column("rental_date")
-    private Date rentalDate;
+//    @JsonIgnore
+//    @Column("rental_date")
+//    private Date rentalDate;
+//
+//    @Column("inventory_id")
+//    private Integer inventoryId;
+//
+//    @JsonIgnore
+//    @Column("customer_id")
+//    private Integer customerId;
+//
+//    @JsonIgnore
+//    @Column("return_date")
+//    private Date returnDate;
+//
+//    @JsonIgnore
+//    @Column("staff_id")
+//    private Integer staffId;
+//
+//    @JsonIgnore
+//    @Column("last_update")
+//    private Date lastUpdate;
 
-    @Column("inventory_id")
-    private Integer inventoryId;
-
-    @Column("customer_id")
-    private Integer customerId;
-
-    @Column("return_date")
-    private Date returnDate;
-
-    @Column("staff_id")
-    private Integer staffId;
-
-    @Column("last_update")
-    private Date lastUpdate;
-
-//    @Column(name = "status")
+//    @JsonIgnore
+    @Column("status")
 //    @Convert(converter = StatusConverter.class)
-//    private Status status;
+    private String status;
 
 }

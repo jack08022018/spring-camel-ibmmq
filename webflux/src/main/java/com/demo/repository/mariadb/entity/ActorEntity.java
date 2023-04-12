@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,6 +31,7 @@ public class ActorEntity implements Serializable {
     @Column("last_name")
     private String lastName;
 
+    @JsonIgnore
     @Column("last_update")
     private LocalDateTime lastUpdate;
 

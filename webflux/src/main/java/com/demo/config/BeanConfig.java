@@ -1,5 +1,6 @@
 package com.demo.config;
 
+import com.demo.config.properties.DatasourceProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableScheduling
 @RequiredArgsConstructor
-@EnableConfigurationProperties(TemporalProperties.class)
+@EnableConfigurationProperties({TemporalProperties.class, DatasourceProperties.class})
 public class BeanConfig {
 
     final Environment env;
