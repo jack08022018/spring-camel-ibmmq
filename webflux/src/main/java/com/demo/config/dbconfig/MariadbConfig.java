@@ -14,6 +14,7 @@ import org.springframework.boot.r2dbc.ConnectionFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.data.r2dbc.core.DefaultReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -31,27 +32,30 @@ import java.time.Duration;
 @Configuration
 @RequiredArgsConstructor
 @EnableTransactionManagement
-@EnableR2dbcRepositories(basePackages = "com.demo.repository.mariadb",
+@EnableR2dbcRepositories(basePackages = "com.demo.repository",
 //        databaseClientRef = "mariadbDatabaseClient",
-        entityOperationsRef = "mariadbEntityTemplate")
-public class MariadbConfig {
+        entityOperationsRef = "entityTemplate")
+public class MariadbConfig extends AbstractR2dbcConfiguration {
     final DatasourceProperties datasourceProperties;
 
     @Primary
-    @Bean("mariadbConnectionFactory")
+    @Bean("connectionFactory")
     public MariadbConnectionFactory connectionFactory() {
+        var properties = datasourceProperties.getMariadb();
         return new MariadbConnectionFactory(MariadbConnectionConfiguration.builder()
-                .host("localhost")
-                .port(3308)
-                .database("sakila")
-                .username("root")
-                .password("123456")
+                .host(properties.getHost())
+                .port(properties.getPort())
+                .database(properties.getDatabase())
+                .username(properties.getUser())
+                .password(properties.getPassword())
+                .connectTimeout(Duration.ofSeconds(properties.getTimeout()))
                 .build());
     }
 
-    @Bean("mariadbTransactionManager")
     @Primary
-    public ReactiveTransactionManager transactionManager(@Qualifier("mariadbConnectionFactory") ConnectionFactory connectionFactory) {
+    @Bean("transactionManager")
+    public ReactiveTransactionManager transactionManager(
+            @Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
         return new R2dbcTransactionManager(connectionFactory);
     }
 
@@ -63,8 +67,9 @@ public class MariadbConfig {
 //    }
 
     @Primary
-    @Bean("mariadbEntityTemplate")
-    public R2dbcEntityOperations entityTemplate(@Qualifier("mariadbConnectionFactory") ConnectionFactory connectionFactory) {
+    @Bean("entityTemplate")
+    public R2dbcEntityOperations entityTemplate(
+            @Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
         var strategy = new DefaultReactiveDataAccessStrategy(MySqlDialect.INSTANCE);
         DatabaseClient databaseClient = DatabaseClient.builder()
                 .connectionFactory(connectionFactory)

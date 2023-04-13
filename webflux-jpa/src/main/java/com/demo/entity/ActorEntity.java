@@ -1,14 +1,11 @@
-package com.demo.repository.mariadb.entity;
+package com.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -18,26 +15,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Table("actor")
+@Entity
+@Table(name = "actor")
 public class ActorEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column("actor_id")
-    private Long actorId;
+    @Column(name = "actor_id")
+    private Integer actorId;
 
-    @Column("first_name")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column("last_name")
+    @Column(name = "last_name")
     private String lastName;
 
     @JsonIgnore
-    @Column("last_update")
+    @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-//    @Version
-//    @JsonIgnore
-//    @Column("version")
-//    private Integer version;
+    @Version
+    @JsonIgnore
+    @Column(name = "version")
+    private Integer version;
 
 }

@@ -46,20 +46,24 @@ public class ConsumerController {
 
     @PostMapping("/getUser")
     public ModelMap getUser() throws InterruptedException {
+        System.out.println(LocalDateTime.now() + " START");
         TimeUnit.SECONDS.sleep(2);
         var result = new ModelMap();
         result.put("id", 1);
         result.put("name", "King");
+        System.out.println(LocalDateTime.now() + " END");
 //        int a = 1/0;
         return result;
     }
 
     @PostMapping("/getClient")
     public ModelMap getClient() throws InterruptedException {
+        System.out.println(LocalDateTime.now() + " START");
         TimeUnit.SECONDS.sleep(3);
         ModelMap result = new ModelMap();
         result.put("clientCode", 1001001);
         result.put("clientName", "PMH");
+        System.out.println(LocalDateTime.now() + " END");
         return result;
     }
 

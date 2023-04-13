@@ -25,18 +25,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.Duration;
 
-@Configuration
 @RequiredArgsConstructor
-@EnableTransactionManagement
-@EnableR2dbcRepositories(basePackages = "com.demo.repository.mssql",
-//        databaseClientRef = "mssqlDatabaseClient",
-        entityOperationsRef = "mssqlEntityTemplate")
-//        entityManagerFactoryRef = "mssqlEntityManagerFactory",
-//        transactionManagerRef = "mssqlTransactionManager")
+//@Configuration
+//@EnableTransactionManagement
+//@EnableR2dbcRepositories(basePackages = "com.demo.repository",
+////        databaseClientRef = "mssqlDatabaseClient",
+//        entityOperationsRef = "entityTemplate")
+////        entityManagerFactoryRef = "mssqlEntityManagerFactory",
+////        transactionManagerRef = "mssqlTransactionManager")
 public class MssqlConfig {
     final DatasourceProperties datasourceProperties;
 
-    @Bean("mssqlConnectionFactory")
+    @Bean("connectionFactory")
     public MssqlConnectionFactory connectionFactory() {
         var properties = datasourceProperties.getMssql();
         return new MssqlConnectionFactory(MssqlConnectionConfiguration.builder()
@@ -49,8 +49,8 @@ public class MssqlConfig {
                 .build());
     }
 
-    @Bean("mssqlTransactionManager")
-    public ReactiveTransactionManager transactionManager(@Qualifier("mssqlConnectionFactory") ConnectionFactory connectionFactory) {
+    @Bean("transactionManager")
+    public ReactiveTransactionManager transactionManager(@Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
         return new R2dbcTransactionManager(connectionFactory);
     }
 
@@ -60,8 +60,8 @@ public class MssqlConfig {
 //        return DatabaseClient.create(connectionFactory);
 //    }
 
-    @Bean("mssqlEntityTemplate")
-    public R2dbcEntityOperations entityTemplate(@Qualifier("mssqlConnectionFactory") ConnectionFactory connectionFactory) {
+    @Bean("entityTemplate")
+    public R2dbcEntityOperations entityTemplate(@Qualifier("connectionFactory") ConnectionFactory connectionFactory) {
         var strategy = new DefaultReactiveDataAccessStrategy(SqlServerDialect.INSTANCE);
         DatabaseClient databaseClient = DatabaseClient.builder()
                 .connectionFactory(connectionFactory)
