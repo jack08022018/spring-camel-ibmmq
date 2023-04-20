@@ -2,13 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile name="Gradle Imported" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.7.7/483f6acb3b0aff6c3d3dc99e8b8f390fa893d0a2/spring-boot-configuration-processor-2.7.7.jar" />
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
-        </processorPath>
-        <module name="readFile.main" />
+        <module name="spring-webflux-grpc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -28,5 +26,10 @@
       <module name="sacom-grpc.orches-service.main" target="17" />
       <module name="sacom-grpc.orches-service.test" target="17" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-webflux-grpc" options="-parameters" />
+    </option>
   </component>
 </project>

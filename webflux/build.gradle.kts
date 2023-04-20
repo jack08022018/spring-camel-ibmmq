@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("net.devh:grpc-web-client:0.8.1")
 //	implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
 	implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
 	implementation("org.mariadb:r2dbc-mariadb:1.1.3")
