@@ -66,8 +66,9 @@ public class ActorServiceImpl implements ActorService {
         actor.setFirstName(actor.getFirstName() + " aa");
         country.setCountry(country.getCountry() + " aa");
         actorRepository.save(actor);
-        int a = 1/0;
+//        int a = 1/0;
         countryRepository.save(country);
+        Mono.error(new Exception(""));
         return Mono.just(1).then();
 //        return actorRepository.findById(1).get()
 //                .doOnNext(s -> s.setFirstName(s.getFirstName() + " aa"))

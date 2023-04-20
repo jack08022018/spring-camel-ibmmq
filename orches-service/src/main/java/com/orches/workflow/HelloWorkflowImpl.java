@@ -27,10 +27,10 @@ public class HelloWorkflowImpl implements HelloWorkflow {
     public void hello() throws NotRetryException {
         log.info("hello:");
         transferActivities.deduct();
-        try {
-            transferActivities.refund();
-        }catch (Exception e) {
-            log.error("xxx: " + e.getMessage());
-        }
+//        try {
+//            transferActivities.refund();
+//        }catch (Exception e) {
+//            log.error("xxx: " + e.getMessage());
+//        }
     }
 }

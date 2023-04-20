@@ -29,12 +29,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.Duration;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
-@EnableTransactionManagement
-@EnableR2dbcRepositories(basePackages = "com.demo.repository",
-//        databaseClientRef = "mariadbDatabaseClient",
-        entityOperationsRef = "entityTemplate")
+//@EnableTransactionManagement
+//@EnableR2dbcRepositories(basePackages = "com.demo.repository",
+////        databaseClientRef = "mariadbDatabaseClient",
+//        entityOperationsRef = "entityTemplate")
 public class MariadbConfig extends AbstractR2dbcConfiguration {
     final DatasourceProperties datasourceProperties;
 

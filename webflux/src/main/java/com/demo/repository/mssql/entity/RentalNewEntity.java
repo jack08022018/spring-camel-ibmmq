@@ -30,18 +30,18 @@ public class RentalNewEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_seq")
     @SequenceGenerator(name="rental_seq", sequenceName="rental_seq", allocationSize = 50)
     @Column("rental_id")
-    private Integer rentalId;
+    private Long rentalId;
 
     @JsonIgnore
     @Column("rental_date")
     private LocalDateTime rentalDate;
 //
     @Column("inventory_id")
-    private Integer inventoryId;
+    private Long inventoryId;
 //
 //    @JsonIgnore
     @Column("customer_id")
-    private Integer customerId;
+    private Long customerId;
 //
     @JsonIgnore
     @Column("return_date")
@@ -49,7 +49,7 @@ public class RentalNewEntity implements Serializable {
 
 //    @JsonIgnore
     @Column("staff_id")
-    private Integer staffId;
+    private Long staffId;
 
     @JsonIgnore
     @Column("last_update")

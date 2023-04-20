@@ -26,13 +26,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.time.Duration;
 
 @RequiredArgsConstructor
-//@Configuration
-//@EnableTransactionManagement
-//@EnableR2dbcRepositories(basePackages = "com.demo.repository",
-////        databaseClientRef = "mssqlDatabaseClient",
-//        entityOperationsRef = "entityTemplate")
-////        entityManagerFactoryRef = "mssqlEntityManagerFactory",
-////        transactionManagerRef = "mssqlTransactionManager")
+@Configuration
+@EnableTransactionManagement
+@EnableR2dbcRepositories(basePackages = "com.demo.repository",
+//        databaseClientRef = "mssqlDatabaseClient",
+        entityOperationsRef = "entityTemplate")
+//        entityManagerFactoryRef = "mssqlEntityManagerFactory",
+//        transactionManagerRef = "mssqlTransactionManager")
 public class MssqlConfig {
     final DatasourceProperties datasourceProperties;
 

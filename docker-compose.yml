@@ -6,17 +6,17 @@ volumes:
   oracle-backup:
 
 services:
-  ibmmq:
-      image: 'docker.io/ibmcom/mq'
-      environment:
-        - LICENSE=accept
-        - MQ_QMGR_NAME=QM1
-      ports:
-        - '1414:1414'
-        - '9443:9443'
-      volumes:
-        - ibmmq:/data/ibmmq
-      container_name: ibmmq
+#  ibmmq:
+#      image: 'docker.io/ibmcom/mq'
+#      environment:
+#        - LICENSE=accept
+#        - MQ_QMGR_NAME=QM1
+#      ports:
+#        - '1414:1414'
+#        - '9443:9443'
+#      volumes:
+#        - ibmmq:/data/ibmmq
+#      container_name: ibmmq
 #
 #      redis:
 #        image: redis:latest
@@ -31,29 +31,29 @@ services:
 #          - '8161:8161'
 #        container_name: activemq
 
-  mongoDb:
-    image: 'mongo:latest'
-    ports:
-      - '27017:27017'
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123456
-    container_name: mongoDb
-
-  oracle:
-    image: 'oraclelinux:9'
-    container_name: oracleDb
-#    image: container-registry.oracle.com/database/enterprise:latest
-    ports:
-      - "1521:1521"
-    environment:
-      ORACLE_SID: ORCLCDB
-      ORACLE_PDB: ORCLPDB1
-      ORACLE_PWD: 123456
-      MONGO_INITDB_ROOT_PASSWORD: 123456
-    volumes:
-      - oracle-data:/opt/oracle/oradata
-      - oracle-backup:/opt/oracle/backup
+#  mongoDb:
+#    image: 'mongo:latest'
+#    ports:
+#      - '27017:27017'
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: 123456
+#    container_name: mongoDb
+#
+#  oracle:
+#    image: 'oraclelinux:9'
+#    container_name: oracleDb
+##    image: container-registry.oracle.com/database/enterprise:latest
+#    ports:
+#      - "1521:1521"
+#    environment:
+#      ORACLE_SID: ORCLCDB
+#      ORACLE_PDB: ORCLPDB1
+#      ORACLE_PWD: 123456
+#      MONGO_INITDB_ROOT_PASSWORD: 123456
+#    volumes:
+#      - oracle-data:/opt/oracle/oradata
+#      - oracle-backup:/opt/oracle/backup
 
 #  mssql:
 #    image: mcr.microsoft.com/mssql/server:latest
@@ -130,3 +130,12 @@ services:
 #    image: sacom-sender:latest
 #    ports:
 #      - "9001:9001"
+
+  orches-service:
+    build:
+      context: orches-service
+      dockerfile: Dockerfile
+    container_name: orches-service
+    image: sacom-orches-service:latest
+    ports:
+      - "9292:9292"

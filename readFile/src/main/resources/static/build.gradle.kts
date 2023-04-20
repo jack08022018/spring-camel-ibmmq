@@ -1,8 +1,9 @@
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+
 plugins {
 	java
 	id("org.springframework.boot") version "2.7.7"
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
-	id("maven-publish")
 }
 
 group = "com"
@@ -20,14 +21,7 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-webflux")
-//	implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
-	implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
-	implementation("org.mariadb:r2dbc-mariadb:1.1.3")
-//	implementation("io.asyncer:r2dbc-mysql:1.0.0")
-	implementation("io.r2dbc:r2dbc-mssql:1.0.0.RELEASE")
-	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
-
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("com.google.code.gson:gson:2.10.1")
 
@@ -35,11 +29,11 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.springframework.boot:spring-boot-starter-logging:3.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-log4j2:3.0.1")
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+tasks.withType<BootBuildImage> {
+	builder = "paketobuildpacks/builder:tiny"
+	environment = mapOf("BP_NATIVE_IMAGE" to "true")
 }

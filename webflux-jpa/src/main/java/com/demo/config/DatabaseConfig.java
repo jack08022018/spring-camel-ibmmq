@@ -62,11 +62,14 @@ public class DatabaseConfig {
 //    }
 
     @Bean("entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean customEntityManagerFactory(EntityManagerFactoryBuilder builder) {
+    public LocalContainerEntityManagerFactoryBean customEntityManagerFactory(
+            EntityManagerFactoryBuilder builder,
+            final @Qualifier("dataSource")
+            DataSource dataSource) {
         var properties = new HashMap<String, Object>();
         properties.put("hibernate.dialect", datasourceProperties.getMariadb().getDialect());
         return builder
-                .dataSource(getDataSource())
+                .dataSource(dataSource)
                 .packages(ActorEntity.class)
                 .properties(properties)
                 .build();

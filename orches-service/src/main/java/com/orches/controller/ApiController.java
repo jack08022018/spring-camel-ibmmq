@@ -47,8 +47,6 @@ public class ApiController {
 
     @PostMapping(value = "/hello")
     public void hello() throws Exception {
-        System.out.println("Xxx: " + new ObjectMapper().writeValueAsString(temporalProperties));
-        String random = RandomStringUtils.random(10);
         var workflow = workflowClient.newWorkflowStub(
                 HelloWorkflow.class,
                 WorkflowOptions.newBuilder()
@@ -61,6 +59,7 @@ public class ApiController {
                                 .setMaximumAttempts(1)
                                 .build())
                         .build());
+        System.out.println("START!");
         workflow.hello();
 //        WorkflowClient.start(workflow::hello);
     }

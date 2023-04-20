@@ -25,7 +25,8 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Mono getData() {
-        return actorRepository.findById(1L);
+//        return actorRepository.findById(1L);
+        return rentalNewRepository.findById(152);
 //        Mono<ActorEntity> response1 = actorRepository.findById(1);
 //        Mono<RentalNewEntity> response2 = rentalNewRepository.findById(152);
 //        return Mono.zip(response1, response2)
@@ -54,10 +55,10 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     @Transactional
-    public Mono<ActorEntity> saveData() {
-        return actorRepository.findById(1L)
+    public Mono<RentalNewEntity> saveData() {
+        return rentalNewRepository.findById(152)
                 .doOnNext(s -> {
-                    s.setFirstName(s.getFirstName() + " aa");
+                    s.setInventoryId(25L);
                     System.out.println("AAAA");
                 })
 //                .map(s -> {
@@ -65,7 +66,7 @@ public class ActorServiceImpl implements ActorService {
 //                    s.setFirstName(s.getFirstName() + " aa");
 //                    return s;
 //                })
-                .flatMap(actorRepository::save);
+                .flatMap(rentalNewRepository::save);
 //                .then();
     }
 //                .subscribe();

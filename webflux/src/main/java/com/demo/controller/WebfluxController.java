@@ -6,6 +6,7 @@ import com.demo.dto.ResponseDto;
 import com.demo.dto.UserData;
 import com.demo.dto.UserDto;
 import com.demo.repository.mariadb.entity.ActorEntity;
+import com.demo.repository.mssql.entity.RentalNewEntity;
 import com.demo.service.ActorService;
 import com.demo.service.ApiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -177,7 +178,7 @@ public class WebfluxController {
     }
 
     @PostMapping("/saveData")
-    public Mono<ActorEntity> saveData() {
+    public Mono<RentalNewEntity> saveData() {
         return actorService.saveData();
     }
 
