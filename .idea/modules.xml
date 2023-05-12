@@ -13,7 +13,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/orches-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/orches-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/readFile.main.iml" filepath="$PROJECT_DIR$/.idea/modules/readFile.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-camel-ibmmq.iml" filepath="$PROJECT_DIR$/spring-camel-ibmmq.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Spring-gRPC-Postgres-master/spring-webflux-grpc.iml" filepath="$PROJECT_DIR$/Spring-gRPC-Postgres-master/spring-webflux-grpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/swagger2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/swagger2.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/validation.main.iml" filepath="$PROJECT_DIR$/.idea/modules/validation.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/webflux-jpa.main.iml" filepath="$PROJECT_DIR$/.idea/modules/webflux-jpa.main.iml" />

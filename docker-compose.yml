@@ -6,30 +6,30 @@ volumes:
   oracle-backup:
 
 services:
-#  ibmmq:
-#      image: 'docker.io/ibmcom/mq'
-#      environment:
-#        - LICENSE=accept
-#        - MQ_QMGR_NAME=QM1
-#      ports:
-#        - '1414:1414'
-#        - '9443:9443'
-#      volumes:
-#        - ibmmq:/data/ibmmq
-#      container_name: ibmmq
+  ibmmq:
+      image: 'docker.io/ibmcom/mq'
+      environment:
+        - LICENSE=accept
+        - MQ_QMGR_NAME=QM1
+      ports:
+        - '1414:1414'
+        - '9443:9443'
+      volumes:
+        - ibmmq:/data/ibmmq
+      container_name: ibmmq
+
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    ports:
+      - '6379:6379'
 #
-#      redis:
-#        image: redis:latest
-#        container_name: redis-server
-#        ports:
-#          - '6379:6379'
-#
-#      activemq:
-#        image: 'rmohr/activemq'
-#        ports:
-#          - '61616:61616'
-#          - '8161:8161'
-#        container_name: activemq
+  activemq:
+    image: 'rmohr/activemq'
+    ports:
+      - '61616:61616'
+      - '8161:8161'
+    container_name: activemq
 
 #  mongoDb:
 #    image: 'mongo:latest'
@@ -69,18 +69,18 @@ services:
 #    ports:
 #      - '1433:1433'
 
-#  mariadb:
-#    image: mariadb
-#    environment:
-#      MYSQL_ROOT_PASSWORD: 123456
-#      MYSQL_DATABASE: sakila
-#      MYSQL_USER: admin
-#      MYSQL_PASSWORD: 123456
-#    restart: on-failure
-#    ports:
-#      - "3308:3306"
-##    command: ['--lower_case_table_names=1']
-#    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--lower_case_table_names=1']
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: sakila
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 123456
+    restart: on-failure
+    ports:
+      - "3308:3306"
+#    command: ['--lower_case_table_names=1']
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--lower_case_table_names=1']
 
 #  mariadb-slave:
 #    image: mariadb
@@ -131,11 +131,11 @@ services:
 #    ports:
 #      - "9001:9001"
 
-  orches-service:
-    build:
-      context: orches-service
-      dockerfile: Dockerfile
-    container_name: orches-service
-    image: sacom-orches-service:latest
-    ports:
-      - "9292:9292"
+#  orches-service:
+#    build:
+#      context: orches-service
+#      dockerfile: Dockerfile
+#    container_name: orches-service
+#    image: sacom-orches-service:latest
+#    ports:
+#      - "9292:9292"

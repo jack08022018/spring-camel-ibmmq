@@ -23,6 +23,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+//	implementation("org.lognet:grpc-spring-boot-starter-webflux:2.8.0")
 
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("com.google.code.gson:gson:2.10.1")

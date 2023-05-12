@@ -17,7 +17,7 @@ spring:
 #        query:
 #          plan_cache_max_size: 1
 #          plan_parameter_metadata_max_size: 1
-#        generate_statistics: true
+        generate_statistics: true
         jdbc:
           batch_size: 1000
           time_zone: UTC

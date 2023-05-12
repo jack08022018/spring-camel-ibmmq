@@ -2,10 +2,7 @@ package com.jpa.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpa.dao.RentalDao;
-import com.jpa.entity.ClientEntity;
-import com.jpa.entity.EmployeeEntity;
-import com.jpa.entity.RentalNewEntity;
-import com.jpa.entity.SalariesEntity;
+import com.jpa.entity.*;
 import com.jpa.entity.relationship.*;
 import com.jpa.enumerator.Gender;
 import com.jpa.enumerator.Status;
@@ -27,12 +24,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
@@ -72,6 +74,7 @@ public class ApiServiceImpl implements ApiService {
     final ClientRepository clientRepository;
     final PostRepository postRepository;
     final PostDetailRepository postDetailRepository;
+    final TestTableRepository testTableRepository;
 
     @Override
     public <T> List<T> getRentalMovies(String title) {
@@ -87,9 +90,9 @@ public class ApiServiceImpl implements ApiService {
 //                })
 //                .collect(Collectors.toList());
 
-//        return (List<T>) rentalRepository.getRentalMoviesDto(title);
+        return (List<T>) rentalRepository.getRentalMoviesDto(title);
 
-        return (List<T>) rentalDao.getRentalMovies(title);
+//        return (List<T>) rentalDao.getRentalMovies(title);
 
 //        return (List<T>) countryRepository.findAllById(Collections.singleton(999));
     }
@@ -97,11 +100,23 @@ public class ApiServiceImpl implements ApiService {
     @Override
     @Transactional
     public <T> T testJpaSave() {
-        RentalNewEntity rental = rentalNewRepository.findById(2).get();
-        rental.setStatus(Status.NEW);
-        rentalNewRepository.save(rental);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+        requestFactory.setBufferRequestBody(false);
+        restTemplate.setRequestFactory(requestFactory);
+//        MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
+//        String response = restTemplate.postForObject("http://example.com/upload", parts, String.class);
+
+        var entity = TestTableEntity.builder()
+                .message("abc")
+                .build();
+        testTableRepository.save(entity);
+
+//        RentalNewEntity rental = rentalNewRepository.findById(2).get();
+//        rental.setStatus(Status.NEW);
+//        rentalNewRepository.save(rental);
 //        CountryEntity entity = countryRepository.findById(1).get();
-        ActorEntity entity = actorRepository.findById(200).get();
+//        ActorEntity entity = actorRepository.findById(200).get();
 //        ActorEntity entity = rentalDao.findActorWithLock(200);
 //        ActorEntity entity = actorRepository.findLockPessimistic(200);
 //        return (T) entity;
